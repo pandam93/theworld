@@ -24,17 +24,17 @@ class StoreThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'thread_text' => 'string|required',
-            'file' => 'image',
-            'thread_url' => 'nullable|url',
+            'title' => 'required|string|min:3|max:30',
+            'thread_text' => 'required|string|min:3|max:200',
+            'thread_image' => 'image',
+            'thread_url' => 'url',
         ];
     }
 
     public function messages()
     {
         return [
-
+            'thread' => 'No se ha creado el hilo'
         ];
     }
 }

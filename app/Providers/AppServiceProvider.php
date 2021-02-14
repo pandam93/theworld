@@ -9,6 +9,7 @@ use App\Models\Board;
 use Illuminate\Pagination\Paginator;
 use App\Observers\ThreadVoteObserver;
 use App\Models\ThreadVote;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
                 View::share('newestThreads',Thread::with('board')->latest()->take(5)->get());
                 View::share('fattestBoards',Board::withCount('threads')->take(5)->orderBy('threads_count','desc')->get());
-        
-                //ThreadVote::observe(ThreadVoteObserver::class);
+                
     }
 }

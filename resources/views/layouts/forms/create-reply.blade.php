@@ -5,7 +5,7 @@ enctype="multipart/form-data">
     <label for="inputTitle" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-10">
         <input class="form-control" type="text" name="reply_user"
-            placeholder="{{ Auth::user()->name ?? 'Anonymous' }}" readonly>
+            placeholder="{{ Auth::user()->name }}" readonly>
     </div>
 </div>
 <div class="form-group row">
@@ -13,7 +13,7 @@ enctype="multipart/form-data">
         class="col-sm-2 col-form-label my-auto">Text</label>
     <div class="col-sm-10">
         <textarea class="form-control @error('reply_text') is-invalid @enderror" id="TextareaText" rows="5"
-            name="reply_text">{{ old('reply_text') ?? '' }}</textarea>
+            name="reply_text">{{ old('reply_text') }}</textarea>
             <div class="invalid-feedback text-left">
             @error('reply_text')
             · {{ $message }}
@@ -37,7 +37,7 @@ enctype="multipart/form-data">
     <label for="InputUrl" class="col-sm-2 col-form-label">URL</label>
     <div class="col-sm-10">
         <input type="url" class="form-control @error('reply_url') is-invalid @enderror" id="InputUrl" name="reply_url"
-            placeholder="url">
+            placeholder="url" {{ old('url') }}>
             <div class="invalid-feedback text-left">
             @error('reply_url')
             · {{ $message }}

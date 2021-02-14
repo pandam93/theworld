@@ -1,4 +1,6 @@
-@if ($thread->thread_image != '')
+
+<div class="media-body">
+    @if ($thread->thread_image != '')
 <span class="h6 d-inline-block text-truncate my-0 py-0" style="max-width:156px;">
     File:<a href="{{ asset('storage/threads/'. $thread->id .'/'. $thread->thread_image) }}" target="_blank" >
      {{ $thread->thread_image }}
@@ -11,7 +13,6 @@
         alt="Post Image" style="max-width:340px;max-height:230px;width:auto;height:auto;">
 </a>
 @endif
-<div class="media-body">
     <h5 class="card-title mb-2 text-muted">
         <span class="font-weight-bold text-primary">{{ $thread->title }}</span> 
         {{ $thread->created_at->toDateTimeString() .' ('.$thread->created_at->shortEnglishDayOfWeek.') ' }} 

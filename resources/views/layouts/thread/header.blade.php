@@ -9,13 +9,13 @@
                     {{-- Description of board --}}
                     <p>{{ $board->description ?? 'Aqui deberia haber una descripcion del board' }}</p>
                     {{-- Button to trigger the create form board --}}
-                    <a href="" data-toggle="collapse" data-target="#createThread" aria-expanded="false"
-                        aria-controls="createThread">
+                    <a href="" data-toggle="collapse" data-target="#createReply" aria-expanded="false"
+                        aria-controls="createReply">
                         <span class="h3">[ Post a Reply ]</span>
                     </a>
                 </div>
                 <div class="col-8 mx-auto">
-                    <div class="collapse card" id="createThread">
+                    <div class="collapse card @if ($errors->any()) {{ 'show' }} @endif" id="createReply">
                         <div class="card-body justify-content-start">
                             @include('layouts.forms.create-reply')
                         </div>

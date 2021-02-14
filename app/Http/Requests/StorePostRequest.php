@@ -24,7 +24,7 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=> 'max:30',
+            'title'=> ['min:3', 'max:30', ],
             'reply_text' => ['required','string', 'max:2000'],
             'reply_image' => ['image','max:5120'], 
             

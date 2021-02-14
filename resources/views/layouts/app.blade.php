@@ -84,6 +84,36 @@
                         @yield('content')
                     </div>
                     <div class="col-2">
+                        @auth
+                        <div class="card mb-3">
+                            <div class="card-header">
+                              #Staka Duggan
+                            </div>
+                            <table class="table mb-0">
+                              <tbody>
+                                <tr>
+                                  <th scope="row">Panel de control
+                                  </th>
+                                <td><span class="pull-right mr-5"><a href="#">TI</a> <a href="#">TP</a></span></td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">Mensajes <span class="badge badge-info">0</span>
+                                  </th>
+                                  <td class="mt-2" rowspan="6"><img class="img-thumbnail" src="https://st.forocoches.com/foro/customavatars/avatar827591_1.gif" alt="" style="display:block; width:100%; height:auto;"></td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">Citas <span class="badge badge-info">0</span>
+                                  </th>
+                        
+                                </tr>
+                                <tr>
+                                  <th scope="row">Menciones <span class="badge badge-info">{{ Auth::user()->unreadNotifications->count() }}</span>
+                        </th>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          @endauth
                         <div class="card">
                             <div class="card-header">Newest threads</div>
                             <div class="card-body">
@@ -92,7 +122,7 @@
                                         {{ $thread->title }}
                                     </a>
                                     <a href="{{ route('boards.show',[$thread->board]) }}"> 
-                                        ( /{{ $thread->board->short_name }}/ - {{ $thread->board->name }} )
+                                        (/{{ $thread->board->short_name }}/ - {{ $thread->board->name }})
                                     </a>
                                     <div class="mt-1">{{ $thread->created_at->diffForHumans() }}</div>
                                     <hr>

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Notifications\Notifiable;
 
 class Thread extends Model
 {
-    use Sluggable, HasFactory, SoftDeletes;
+    use Sluggable, HasFactory, SoftDeletes, Notifiable;
 
     protected $fillable = ['community_id', 'user_id',  'title', 'slug', 'thread_text', 'thread_image','thread_url', 'votes'];
 

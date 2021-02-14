@@ -6,6 +6,11 @@
                     {{-- Title board --}}
                     <h3>{{ '/' . $board->short_name . '/ - ' . $board->name }}</h3>
                     <hr>
+                    @if ($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        No se ha creado el Thread
+                      </div>
+                    @endif
                     {{-- Description of board --}}
                     <p>{{ $board->description ?? 'Aqui deberia haber una descripcion del board' }}</p>
                     {{-- Button to trigger the create form board --}}
@@ -15,7 +20,7 @@
                     </a>
                 </div>
                 <div class="col-8 mx-auto">
-                    <div class="collapse card" id="createThread">
+                    <div class="collapse card @if ($errors->any()) {{ 'show' }} @endif" id="createThread">
                         <div class="card-body justify-content-start">
                             @include('layouts.forms.create-thread')
                         </div>

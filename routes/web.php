@@ -21,6 +21,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
 
+    Route::view('/test', 'test');
+
     Route::resource('boards', \App\Http\Controllers\BoardController::class);
 
     Route::get('boards/{board}/threads/{thread}', [ \App\Http\Controllers\BoardThreadController::class, 'show'])
