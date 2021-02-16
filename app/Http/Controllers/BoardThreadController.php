@@ -82,6 +82,7 @@ class BoardThreadController extends Controller
     {
         $thread->load('replies.user');
         
+        
         return view('boards.threads.show', compact('board','thread'));
     }
 

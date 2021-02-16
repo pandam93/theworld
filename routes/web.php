@@ -19,9 +19,15 @@ Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function() {
 
-    Route::view('/test', 'test');
+Route::get('/roles', [App\Http\Controllers\PermissionController::class, 'permission']);
+
+Route::get('/test', function(){
+    return view('test');
+});
+
+
+Route::group(['middleware' => 'auth'], function() {
 
     Route::resource('boards', \App\Http\Controllers\BoardController::class);
 

@@ -26,8 +26,8 @@ class StorePostRequest extends FormRequest
         return [
             'title'=> ['min:3', 'max:30', ],
             'reply_text' => ['required','string', 'max:2000'],
-            'reply_image' => ['image','max:5120'], 
-            
+            'reply_image' => ['image','max:5120'],
+            'url' => ['url','nullable'],
         ];
     }
 }

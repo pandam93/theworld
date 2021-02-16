@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Reply extends Model
 {
@@ -19,5 +20,9 @@ class Reply extends Model
 
     public function thread(){
         return $this->belongsTo(Thread::class);
+    }
+    
+    public function getReplyText(){
+            return Str::title($this->reply_text);
     }
 }

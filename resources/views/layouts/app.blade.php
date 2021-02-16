@@ -92,22 +92,22 @@
                             <table class="table mb-0">
                               <tbody>
                                 <tr>
-                                  <th scope="row">Panel de control
+                                  <th scope="row"><a href="#" class="text-muted" data-toggle="tooltip" data-placement="left" title="temporarily unavailable ">Panel de control</a>
                                   </th>
                                 <td><span class="pull-right mr-5"><a href="#">TI</a> <a href="#">TP</a></span></td>
                                 </tr>
                                 <tr>
-                                  <th scope="row">Mensajes <span class="badge badge-info">0</span>
+                                  <th scope="row"><a href="#" class="text-dark">Mensajes</a> <span class="badge badge-info badge-pill">0</span>
                                   </th>
                                   <td class="mt-2" rowspan="6"><img class="img-thumbnail" src="https://st.forocoches.com/foro/customavatars/avatar827591_1.gif" alt="" style="display:block; width:100%; height:auto;"></td>
                                 </tr>
                                 <tr>
-                                  <th scope="row">Citas <span class="badge badge-info">0</span>
+                                  <th scope="row"><a href="#" class="text-dark">Citas</a> <span class="badge badge-info badge-pill">0</span>
                                   </th>
                         
                                 </tr>
                                 <tr>
-                                  <th scope="row">Menciones <span class="badge badge-info">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                  <th scope="row"><a href="#" class="text-dark">Menciones</a> <span class="badge badge-info badge-pill">{{ Auth::user()->unreadNotifications->count() }}</span>
                         </th>
                                 </tr>
                               </tbody>
@@ -146,5 +146,10 @@
             </div>
         </main>
     </div>
+    <script>
+        $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    </script>
 </body>
 </html>

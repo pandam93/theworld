@@ -19,7 +19,7 @@ class ThreadReplyController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny');
     }
 
     /**
@@ -40,6 +40,8 @@ class ThreadReplyController extends Controller
      */
     public function store(StorePostRequest $request, Thread $thread, Reply $reply)
     {
+        $this->authorize('create',$reply);
+
         $thread->load('board');
         
         $reply = $thread->replies()->create([
