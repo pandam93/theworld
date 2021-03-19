@@ -123,7 +123,7 @@
                                   @forelse ($thread->replies as $reply)
                                   <div class="media m-3 border border-secondary">
                                     @if ($reply->image)
-                                    <div class="d-flex-in flex-column">
+                                    <div class="d-flex flex-column">
                                       <div>
                                         <a target="_blank" href="{{ asset('storage/threads/'. $board->name .'/'. $reply->thread->id .'/'. $reply->image->name .'.'. $reply->image->type) }}">
                                           <figcaption class="figure-caption ml-1 mt-1 text-truncate" style="max-width: 200px;">{{ $reply->image->name }}</figcaption>
@@ -149,7 +149,7 @@
                                       <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">{{ 'Anonymus' }}</span>
                                       @endguest
                                       <span class="d-block mt-1 pb-2">
-                                        <span class="border-bottom mb-4 pb-1">
+                                        <span class="border-bottom mb-2 pb-1 d-flex flex-wrap">
                                       <h5 class="d-inline-block mb-0">
                                         id:
                                         <span class="font-weight-normal align-top">
@@ -172,11 +172,26 @@
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
                                                           </a>
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a>
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a>
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a>
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a>
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a>
                                                         </span>
                                                     </h5>
                                                   </span>
                                                   </span>
-                                      <p class="mt-4 ml-2">{{ $reply->body }}</p>
+                                      <p class="ml-2">{{ $reply->body }}</p>
                                       <div class="m-1 border text-right">
                                         <i class="gg-info d-inline-block mr-2 align-middle"></i>
                                         <i class="gg-add d-inline-block mr-2 align-middle"></i>
