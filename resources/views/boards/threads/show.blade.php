@@ -136,30 +136,28 @@
                                     </div>
                                     @endif
                                     <div class="media-body ml-2">
-                                      @auth
-                                      <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">
-                                        <span class="text-muted">id:</span><a href="{{ route('users.show', $reply->user->username) }}" class="text-dark">{{ $reply->user->username }}</a>
-                                        /
-                                        <small class="text-muted">
-                                          {{ $reply->created_at->toDateTimeString() . ' (' . $reply->created_at->shortEnglishDayOfWeek . ') ' }}
-                                        </small>
-                                      </span>
-                                      @endauth
-                                      @guest
-                                      <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">{{ 'Anonymus' }}</span>
-                                      @endguest
-                                      <span class="d-block mt-1 pb-2">
-                                        <span class="border-bottom mb-2 pb-1 d-flex flex-wrap">
-                                      <h5 class="d-inline-block mb-0">
-                                        id:
-                                        <span class="font-weight-normal align-top">
-                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                          <div class="mb-2 pb-1 mt-1">
+                                        @auth
+                                        <span class="h6 float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">
+                                          <span class="text-muted">id:</span><a href="{{ route('users.show', $reply->user->username) }}" class="text-dark">{{ $reply->user->username }}</a>
+                                          /
+                                          <small class="text-muted">
+                                            {{ $reply->created_at->toDateTimeString() . ' (' . $reply->created_at->shortEnglishDayOfWeek . ') ' }}
+                                          </small>
+                                        </span>
+                                        @endauth
+                                        @guest
+                                        <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">{{ 'Anonymus' }}</span>
+                                        @endguest
+                                         <span class="h5">Id.</span>  {{-- TODO: Poner que se pueda citar al OP...joder--}}
+                                        <span class="h5">
+                                          <a class="badge badge-primary pt-1 mb-2" href="#">
                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
                                           </a>
                                         </span>
                                         {{-- TODO: todo esto, ofc --}}
                                         <i class="gg-more-vertical-alt d-inline-block m-1"></i>
-                                                        <span class="small font-weight-normal align-text-top">
+                                                        <span class="h6 align-text-middle">
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
                                                           </a> ,
@@ -171,27 +169,114 @@
                                                           </a> ,
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> ,
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> ,
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> ,
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> ,
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> ,
                                                           <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+                                                          </a> ,
+
                                                         </span>
-                                                    </h5>
-                                                  </span>
-                                                  </span>
-                                      <p class="ml-2">{{ $reply->body }}</p>
+                                                      </div>
+                                                      <div class="col-8">
+                                                        <hr class="my-0">
+                                                      </div>
+
+                                       <p class="h5 ml-2 mt-2">{{ $reply->body }}</p>  {{-- Cambiar tipografia --}}
                                       <div class="m-1 border text-right">
                                         <i class="gg-info d-inline-block mr-2 align-middle"></i>
                                         <i class="gg-add d-inline-block mr-2 align-middle"></i>
