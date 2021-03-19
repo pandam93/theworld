@@ -22,13 +22,7 @@ class ReplyPolicy
      */
     public function before(User $user, $ability)
     {
-        $validRole = $user->roles->firstWhere('id',config('constants.roles.god'));
-
-        if($validRole){
-            return true;
-        }else{
-            return false;
-        }
+        
     }
 
     /**
@@ -39,13 +33,7 @@ class ReplyPolicy
      */
     public function viewAny(User $user)
     {
-        $validRole = $user->roles->firstWhere('id','<=', config('constants.roles.user'));
 
-        if($validRole){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     /**
@@ -57,7 +45,7 @@ class ReplyPolicy
      */
     public function view(User $user, Reply $reply)
     {
-        //
+        
     }
 
     /**
@@ -68,12 +56,6 @@ class ReplyPolicy
      */
     public function create(User $user)
     {
-        $validRole = $user->roles->firstWhere('id',config('constants.roles.user'));
-        if($validRole){
-            return true;
-        }else{
-            return false;
-        }
         
     }
 
@@ -86,7 +68,7 @@ class ReplyPolicy
      */
     public function update(User $user, Reply $reply)
     {
-        //return $user->id === $reply->user_id;
+        return $user->id === $reply->user_id;
     }
 
     /**
@@ -98,7 +80,7 @@ class ReplyPolicy
      */
     public function delete(User $user, Reply $reply)
     {
-        //return $user->id === $reply->user_id || $user->role->id == Config::get('constants.roles.manager');
+        return $user->id === $reply->user_id;
 
     }
 

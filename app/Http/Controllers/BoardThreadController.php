@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StorePostRequest;
 use App\Models\Board;
 use App\Models\Thread;
 use App\Http\Requests\StoreThreadRequest;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Str;
+use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 
@@ -32,7 +34,7 @@ class BoardThreadController extends Controller
      */
     public function create(Board $board)
     {
-        return view('threads.create',compact('board'));
+        return view('threads.create', compact('board'));
     }
 
     /**
@@ -43,33 +45,63 @@ class BoardThreadController extends Controller
      */
     public function store(StoreThreadRequest $request, Board $board)
     {
+        $thread = $board->threads()->create($request->validated());
 
-        $thread = $board->threads()->create([
-            'user_id' => auth()->id(),
-            'title' => $request->title,
-            'thread_text' => $request->thread_text ?? null,
-            'thread_url' => $request->thread_url ?? null,
-        ]);
+        if ($request->hasFile('thread_file') && $request->file('thread_file')->isValid()) {
 
-        
+            $file = $request->file('thread_file')->getClientOriginalName();
 
-        if($request->hasFile('thread_image')){
-            $image = $request->file('thread_image')->getClientOriginalName();
-            $request->file('thread_image')
-                    ->storeAs('threads/' . $thread->id,$image);
-            $thread->update(['thread_image' => $image]);
+            $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+            if ($fileExtension == '') {
+                $fileExtension = $request->file('thread_file')->guessClientExtension();
+                //TODO: mirar algo mejor
+            }
+            $fileName = pathinfo($file, PATHINFO_FILENAME);
 
-            $file = Image::make(storage_path('app/public/threads/' . $thread->id .'/'. $image));
-            $width = 600; // your max width
-            $height = 300; // your max height
-            $file->height() > $file->width() ? $width=null : $height=null;
-            $file->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $file->save(storage_path('app/public/threads/' . $thread->id . '/thumbnail_'. $image));
+            $request->file('thread_file')
+                ->storeAs('threads/' . $board->name . '/' . $thread->id, $fileName . '.' . $fileExtension);
+
+            $fileThumbnailPath = 'threads/' . $board->name . '/' . $thread->id;
+
+
+            $image = $thread->image()->make([
+                'name' => $fileName,
+                'type' => $fileExtension,
+            ]);
+
+            //TODO: $image->thumbnail_path = 'lo que sea'
+
+            if (Str::contains($fileExtension, ['jpeg', 'png', 'jpg'])) {
+                if ($fileExtension == 'png') {
+                    //TODO: quiza mejor y mas rapido pillar la imagen de request->file
+                    $file = Image::make(storage_path('app/public/threads/' . $board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension));
+                    $width = 600; // your max width
+                    $height = 300; // your max height
+                    $file->height() > $file->width() ? $width = null : $height = null;
+                    $file->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
+                    $image->save();
+                } else {
+                    $file = Image::make(storage_path('app/public/threads/' . $board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension))->encode('webp', 80);
+                    $width = 600; // your max width
+                    $height = 300; // your max height
+                    $file->height() > $file->width() ? $width = null : $height = null;
+                    $file->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $fileExtension = 'webp';
+
+                    $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
+                    $image->save();
+                }
+                $file->save(storage_path('app/public/threads/' . $board->name . '/' . $thread->id . '/thumbnail_' . $fileName . '.' . $fileExtension));
+            }
         }
-
-        return redirect()->route('boards.show', $board);
+        return redirect()->route('boards.threads.show', [$board, $thread]);
     }
 
     /**
@@ -80,10 +112,9 @@ class BoardThreadController extends Controller
      */
     public function show(Board $board, Thread $thread)
     {
-        $thread->load('replies.user');
-        
-        
-        return view('boards.threads.show', compact('board','thread'));
+        $thread->load(['replies.user', 'image']);
+
+        return view('boards.threads.show', compact('board', 'thread'));
     }
 
     /**
@@ -94,11 +125,8 @@ class BoardThreadController extends Controller
      */
     public function edit(Board $board, Thread $thread)
     {
-        if(Gate::denies('edit-thread',$thread)){
-            abort(403);
-        }
-        
-        return view('threads.edit',compact('board','thread'));
+
+        return view('threads.edit', compact('board', 'thread'));
     }
 
     /**
@@ -110,35 +138,31 @@ class BoardThreadController extends Controller
      */
     public function update(StoreThreadRequest $request, Board $board, Thread $thread)
     {
-        if(Gate::denies('edit-thread',$thread)){
-            abort(403);
-        }
 
         $thread->update($request->validated());
 
-        if($request->hasFile('thread_image')){
+        if ($request->hasFile('thread_image')) {
             $image = $request->file('thread_image')->getClientOriginalName();
             $request->file('thread_image')
-                    ->storeAs('threads/' . $thread->id,$image);
+                ->storeAs('threads/' . $thread->id, $image);
 
-            if($thread->thread_image != '' && $thread->thread_image != $image){
-                unlink(storage_path('app/public/threads/OP_'. $thread->id . '/' . $thread->thread_image));
+            if ($thread->thread_image != '' && $thread->thread_image != $image) {
+                unlink(storage_path('app/public/threads/OP_' . $thread->id . '/' . $thread->thread_image));
             }
 
             $thread->update(['thread_image' => $image]);
 
-            $file = Image::make(storage_path('app/public/threads/OP_' . $thread->id .'/' . $image));
+            $file = Image::make(storage_path('app/public/threads/OP_' . $thread->id . '/' . $image));
             $width = 100; // your max width
             $height = 100; // your max height
-            $file->height() > $file->width() ? $width=null : $height=null;
+            $file->height() > $file->width() ? $width = null : $height = null;
             $file->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $file->save(storage_path('app/public/threads/OP_' . $thread->id . '/thumbnail_'. $image));
-
+            $file->save(storage_path('app/public/threads/OP_' . $thread->id . '/thumbnail_' . $image));
         }
 
-        return redirect()->route('boards.threads.show',[$board, $thread]);
+        return redirect()->route('boards.threads.show', [$board, $thread]);
     }
 
     /**
@@ -149,16 +173,24 @@ class BoardThreadController extends Controller
      */
     public function destroy(Board $board, Thread $thread)
     {
-        if(Gate::denies('delete-thread', $thread)){
-            abort(403);
-        }
+
+        //TODO: que elimine tambien la imagen guardada.
+        //TODO: Mirar softDeletes + onCascade.
+
+        $thread->likes->map(function ($item) {
+            return $item->delete();
+        });
+
+        $thread->replies->map(function ($item) {
+            return $item->delete();
+        });
 
         $thread->delete();
 
-        return redirect()->route('boards.show',[$board]);
+        return redirect('/');
     }
 
-        /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

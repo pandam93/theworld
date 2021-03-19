@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Permissions\HasPermissionsTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasPermissionsTrait;
+    use HasFactory, Notifiable, HasPermissionsTrait; //TODO: Agregar SoftDeletes
 
     /**
      * The attributes that are mass assignable.
@@ -44,6 +46,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    public function board()
+    {
+        return $this->hasOne(Board::class);
+    }
+
     public function threads()
     {
         return $this->hasMany(Thread::class);
@@ -52,6 +64,21 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    public function preThreads()
+    {
+        return $this->threads()->take(3)->orderBy('id', 'desc');
+    }
+
+    public function preReplies()
+    {
+        return $this->replies()->take(3)->orderBy('id', 'desc');
     }
 
     public function receivedLikes()

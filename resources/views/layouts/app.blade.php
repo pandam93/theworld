@@ -10,20 +10,37 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    {{-- https://fontawesome.com/v4.7.0/icons/ --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" />
+
+    <!-- Icons -->
+    <link href='https://css.gg/css' rel='stylesheet'>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        /*
+ * Footer
+ */
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: .05rem solid #e5e5e5;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+    </style>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -34,7 +51,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @foreach ($boards as $key => $name)
+                        <li class="nav-item">
+                            <a href="{{ route('boards.show', ['board' => $key]) }}" class="nav-link">{{ $name }}</a>
+                        </li>
+                        @endforeach
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -51,20 +72,30 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
+                                
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('users.show',auth()->user()->username) }}">
+                                        Perfil
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ route('users.threads.index',auth()->user()->username) }}">
+                                        Mis threads
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ route('users.threads.likedThreads',auth()->user()->username) }}">
+                                        Mis threads guardados
+                                    </a>
+
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    onclick="event.preventDefault();
+                                                  document.getElementById('logout-form').submit();">
+                                     {{ __('Logout') }}
                                     </a>
-                                    
-                                    <a class="dropdown-item" href="{{ route('boards.index') }}">
-                                        {{ __('My Boards') }}
-                                    </a>
+
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
@@ -78,78 +109,14 @@
         </nav>
 
         <main class="py-4">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-10">
-                        @yield('content')
-                    </div>
-                    <div class="col-2">
-                        @auth
-                        <div class="card mb-3">
-                            <div class="card-header">
-                              #Staka Duggan
-                            </div>
-                            <table class="table mb-0">
-                              <tbody>
-                                <tr>
-                                  <th scope="row"><a href="#" class="text-muted" data-toggle="tooltip" data-placement="left" title="temporarily unavailable ">Panel de control</a>
-                                  </th>
-                                <td><span class="pull-right mr-5"><a href="#">TI</a> <a href="#">TP</a></span></td>
-                                </tr>
-                                <tr>
-                                  <th scope="row"><a href="#" class="text-dark">Mensajes</a> <span class="badge badge-info badge-pill">0</span>
-                                  </th>
-                                  <td class="mt-2" rowspan="6"><img class="img-thumbnail" src="https://st.forocoches.com/foro/customavatars/avatar827591_1.gif" alt="" style="display:block; width:100%; height:auto;"></td>
-                                </tr>
-                                <tr>
-                                  <th scope="row"><a href="#" class="text-dark">Citas</a> <span class="badge badge-info badge-pill">0</span>
-                                  </th>
-                        
-                                </tr>
-                                <tr>
-                                  <th scope="row"><a href="#" class="text-dark">Menciones</a> <span class="badge badge-info badge-pill">{{ Auth::user()->unreadNotifications->count() }}</span>
-                        </th>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          @endauth
-                        <div class="card">
-                            <div class="card-header">Newest threads</div>
-                            <div class="card-body">
-                                @foreach ($newestThreads as $thread)
-                                    <a href="{{ route('boards.threads.show',[$thread->board,$thread]) }}">
-                                        {{ $thread->title }}
-                                    </a>
-                                    <a href="{{ route('boards.show',[$thread->board]) }}"> 
-                                        (/{{ $thread->board->short_name }}/ - {{ $thread->board->name }})
-                                    </a>
-                                    <div class="mt-1">{{ $thread->created_at->diffForHumans() }}</div>
-                                    <hr>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="card mt-3">
-                            <div class="card-header">Lovest boards</div>
-                            <div class="card-body">
-                                @foreach ($fattestBoards as $board)
-                                <a href="{{ route('boards.show',$board) }}">
-                                {{ $board->name }}</a>
-                                ({{ $board->threads_count }} threads)
-                                <div class="mt-1">{{ $board->created_at->diffForHumans() }}</div>
-                                <hr>
-                            @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @yield('content')
         </main>
     </div>
-    <script>
-        $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-    </script>
+    <footer class="blog-footer">
+        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        <p>
+          <a href="#">Back to top</a>
+        </p>
+      </footer>
 </body>
 </html>

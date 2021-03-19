@@ -3,18 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Thread;
+use App\Models\User;
 
-class ThreadController extends Controller
+class UserReplyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        $replies = $user->replies()->orderBy('created_at', 'desc')->paginate(5);
+
+        $replies->load('thread');
+
+        return view('users.replies.index', [
+            'user' => $user,
+            'replies' => $replies
+        ]);
     }
 
     /**
@@ -44,9 +51,9 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($id)
     {
-        return view('boards.threads.show',[$thread]);
+        //
     }
 
     /**
@@ -55,7 +62,7 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Thread $thread)
+    public function edit($id)
     {
         //
     }
@@ -67,7 +74,7 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Thread $thread)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,7 +85,7 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy($id)
     {
         //
     }

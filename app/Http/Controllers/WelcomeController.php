@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Board;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
@@ -16,11 +14,8 @@ class WelcomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $boards = Board::orderBy('name')->get();
+        $boards = \App\Models\Board::all()->pluck('name','key');
 
-        $users = User::get();
-
-
-        return view('welcome',compact('boards','users'));
+        return view('welcome', compact('boards'));
     }
 }

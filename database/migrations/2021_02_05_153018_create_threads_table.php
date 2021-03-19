@@ -15,14 +15,12 @@ class CreateThreadsTable extends Migration
     {
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('board_id');
-            $table->foreignId('user_id');
             $table->string('title');
             $table->string('slug');
-            $table->text('thread_text');
-            $table->text('thread_image')->nullable();
-            $table->text('thread_url')->nullable();
+            $table->text('body');
             $table->integer('votes')->default(0);
+            $table->foreignId('board_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

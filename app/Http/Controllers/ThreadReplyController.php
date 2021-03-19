@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Thread;
 use App\Models\Board;
 use App\Models\Reply;
+use App\Models\User;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Str;
+
 
 
 class ThreadReplyController extends Controller
@@ -17,9 +20,9 @@ class ThreadReplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        $this->authorize('viewAny');
+        
     }
 
     /**
@@ -38,40 +41,64 @@ class ThreadReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request, Thread $thread, Reply $reply)
+    public function store(StorePostRequest $request, Thread $thread)
     {
-        $this->authorize('create',$reply);
+        $reply = $thread->replies()->create($request->validated());
 
-        $thread->load('board');
-        
-        $reply = $thread->replies()->create([
-            'user_id' => auth()->id(),
-            'reply_text' => $request->reply_text ?? null,
-            'reply_image' => $request->reply_image ?? null,
-            'reply_url' => $request->reply_url ?? null,
+        if ($request->hasFile('reply_file') && $request->file('reply_file')->isValid()) {
 
-        ]);
+            $file = $request->file('reply_file')->getClientOriginalName();
 
-        if($request->hasFile('reply_image')){
-            $image = $request->file('reply_image')->getClientOriginalName();
-            $request->file('reply_image')
-                    ->storeAs('threads/' . $reply->thread->id,$image);
-            $reply->update(['reply_image' => $image]);
+            $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+            if ($fileExtension == '') {
+                $fileExtension = $request->file('reply_file')->guessClientExtension();
+                //TODO: mirar algo mejor
+            }
+            $fileName = pathinfo($file, PATHINFO_FILENAME);
 
-            $file = Image::make(storage_path('app/public/threads/' . $reply->thread->id .'/'. $image));
-            $width = 600; // your max width
-            $height = 300; // your max height
-            $file->height() > $file->width() ? $width=null : $height=null;
-            $file->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $file->save(storage_path('app/public/threads/' . $reply->thread->id . '/thumbnail_'. $image));
+            $request->file('reply_file')
+                ->storeAs('threads/' . $thread->board->name . '/' . $thread->id, $fileName . '.' . $fileExtension);
+
+            $fileThumbnailPath = 'threads/' . $thread->board->name . '/' . $thread->id;
+
+
+            $image = $reply->image()->make([
+                'name' => $fileName,
+                'type' => $fileExtension,
+            ]);
+
+            //TODO: $image->thumbnail_path = 'lo que sea'
+
+            if (Str::contains($fileExtension, ['jpeg', 'png', 'jpg'])) {
+                if ($fileExtension == 'png') {
+                    //TODO: quiza mejor y mas rapido pillar la imagen de request->file
+                    $file = Image::make(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension));
+                    $width = 600; // your max width
+                    $height = 300; // your max height
+                    $file->height() > $file->width() ? $width = null : $height = null;
+                    $file->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
+                    $image->save();
+                } else {
+                    $file = Image::make(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension))->encode('webp', 80);
+                    $width = 600; // your max width
+                    $height = 300; // your max height
+                    $file->height() > $file->width() ? $width = null : $height = null;
+                    $file->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $fileExtension = 'webp';
+
+                    $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
+                    $image->save();
+                }
+                $file->save(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/thumbnail_' . $fileName . '.' . $fileExtension));
+            }
         }
-
-        // $thread->update([
-        //     'updated_at' => now(),
-        // ]);
-
         return redirect()->route('boards.threads.show', [$thread->board, $thread]);
     }
 
@@ -92,9 +119,9 @@ class ThreadReplyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Thread $thread, Reply $reply)
     {
-        //
+        return 'hola';
     }
 
     /**
@@ -115,8 +142,10 @@ class ThreadReplyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Thread $thread, Reply $reply)
     {
-        //
+        $reply->delete();
+
+        return back();
     }
 }

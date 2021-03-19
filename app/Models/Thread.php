@@ -12,7 +12,7 @@ class Thread extends Model
 {
     use Sluggable, HasFactory, SoftDeletes, Notifiable;
 
-    protected $fillable = ['community_id', 'user_id',  'title', 'slug', 'thread_text', 'thread_image','thread_url', 'votes'];
+    protected $fillable = ['board_id','user_id','title','body'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -25,7 +25,7 @@ class Thread extends Model
             'slug' => [
                 'source' => 'title'
             ]
-        ];
+        ];  
     }
 
     public function getRouteKeyName()
@@ -45,7 +45,11 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class)->latest();
+        return $this->hasMany(Reply::class);
+    }
+    public function preReplies()
+    {
+        return $this->replies()->take(2)->orderBy('created_at', 'desc');
     }
 
     public function likedBy(User $user)
@@ -56,5 +60,13 @@ class Thread extends Model
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Get the post's image.
+     */
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

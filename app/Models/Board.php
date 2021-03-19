@@ -10,9 +10,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Board extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'description', 'short_name'];
+    protected $fillable = ['user_id', 'name', 'description', 'key'];
+
+    //TODO: quitarlo y usar la sitaxis de board:short_name en la route.
+    public function getRouteKeyName()
+    {
+        return 'key';
+    }
     
     public function user()
     {
@@ -22,11 +28,6 @@ class Board extends Model
     public function topics()
     {
         return $this->belongsToMany(Topic::class);
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'short_name';
     }
 
     public function threads()

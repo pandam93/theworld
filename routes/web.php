@@ -14,28 +14,26 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
-
+Route::get('/', \App\Http\Controllers\WelcomeController::class);
 
 Auth::routes();
 
+//Ya tiene el middleware 'auth' en el constructor del controller.
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/roles', [App\Http\Controllers\PermissionController::class, 'permission']);
+Route::resource('boards', \App\Http\Controllers\BoardController::class);
 
-Route::get('/test', function(){
-    return view('test');
-});
-
+Route::resource('boards.threads', \App\Http\Controllers\BoardThreadController::class);
 
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::resource('boards', \App\Http\Controllers\BoardController::class);
+    Route::get('/users/{user}',[\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
 
-    Route::get('boards/{board}/threads/{thread}', [ \App\Http\Controllers\BoardThreadController::class, 'show'])
-        ->name('boards.threads.show');
+    Route::resource('users.replies', \App\Http\Controllers\UserReplyController::class);
 
-    Route::resource('boards.threads', \App\Http\Controllers\BoardThreadController::class)
-    ->except('show');
+    Route::get('/users/{user}/threads/liked', [\App\Http\Controllers\UserThreadController::class, 'likedThreads'])->name('users.threads.likedThreads');
+
+    Route::resource('users.threads', \App\Http\Controllers\UserThreadController::class);
 
     Route::resource('threads.replies', \App\Http\Controllers\ThreadReplyController::class);
 

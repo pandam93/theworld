@@ -17,18 +17,19 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;'); // Desactivamos la revisión de claves foráneas
+        DB::table('users')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1;'); // Reactivamos la revisión de claves foráneas
+
+        User::create([
             'name' => 'Carlos Millan',
             'email' => 'cfmillanm@gmail.com',
             'username' => 'cfmillanm',
+            'email_verified_at' => now(),
             'password' => Hash::make('qwer1234'),
+            'remember_token' => Str::random(10),
         ]);
 
-        $user->save();
-
-        $user->roles()->attach(1);
-
-
-        User::factory()->times(4)->create();
+        User::factory()->count(20)->create();
     }
 }

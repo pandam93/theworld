@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class StorePostRequest extends FormRequest
 {
@@ -24,10 +26,14 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=> ['min:3', 'max:30', ],
-            'reply_text' => ['required','string', 'max:2000'],
-            'reply_image' => ['image','max:5120'],
-            'url' => ['url','nullable'],
+            'body' => ['required','string', 'max:2000'],
         ];
     }
+
+    public function validated()
+    {
+        return array_merge(parent::validated(), [
+            'user_id' => Auth::user()->id,
+        ]);
+    }   
 }

@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Board;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Sequence;
+
 
 class BoardSeeder extends Seeder
 {
@@ -17,20 +18,26 @@ class BoardSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;'); // Desactivamos la revisión de claves foráneas
+        DB::table('boards')->truncate();
+        //DB::table('users')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1;'); // Reactivamos la revisión de claves foráneas
 
-        $boards = array("a"=>"Anime", "v"=>"Games", "g"=>"Technology",
-                        "tv"=>"Audivisual", "p"=>"Photos","e"=>"Spain",
-                        "b"=>"Random", "pol"=>"Opinion","lit"=>"Literature",
-                        "adv"=>"Advice","sp"=>"Sports","bl"=>"blog");
-
-        foreach($boards as $key => $value){
-
-            Board::factory()->create([
-                'name' => $value,
-                'short_name' => $key,
-                'slug' => $key,
-            ]);
-        }
-
+        Board::factory()
+        ->count(5)
+        ->state(new Sequence(
+            ['name' => 'Television',
+            'key' => 'tv'],
+            ['name' => 'Photos',
+            'key' => 'p'],
+            ['name' => 'Spain',
+            'key' => 'e'],
+            ['name' => 'Random',
+            'key' => 'b',
+            'user_id' => 1],
+            ['name' => 'Opinion',
+            'key' => 'pol'],
+        ))
+        ->create();
     }
 }

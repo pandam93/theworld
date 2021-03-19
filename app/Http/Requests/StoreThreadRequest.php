@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class StoreThreadRequest extends FormRequest
 {
@@ -25,16 +27,15 @@ class StoreThreadRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:3|max:30',
-            'thread_text' => 'required|string|min:3|max:200',
-            'thread_image' => 'image',
-            'thread_url' => 'url|nullable',
+            'body' => 'required|string|min:3|max:200',
+            
         ];
     }
 
-    public function messages()
+    public function validated()
     {
-        return [
-            'thread' => 'No se ha creado el hilo'
-        ];
+        return array_merge(parent::validated(), [
+            'user_id' => Auth::user()->id,
+        ]);
     }
 }

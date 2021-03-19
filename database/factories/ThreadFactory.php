@@ -3,7 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Thread;
+use App\Models\User;
+use App\Models\Board;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
 
 class ThreadFactory extends Factory
 {
@@ -21,12 +25,14 @@ class ThreadFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->text(50);
+        
         return [
-            'board_id' => 1,
-            'user_id' => rand(1, 100),
-            'slug' => $this->faker->text(6),
-            'title' => $this->faker->text(50),
-            'thread_text' => $this->faker->text(500),
+            'slug' => Str::slug($title),
+            'title' => $title,
+            'body' => $this->faker->text(500),
+            'board_id' => Board::all()->random(),
+            'user_id'=> User::all()->random()
         ];
     }
 }

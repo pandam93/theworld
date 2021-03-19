@@ -3,19 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Board;
-use Illuminate\Foundation\Inspiring;
+use App\Models\User;
+use App\Models\Thread;
 
-class BoardController extends Controller
+class UserThreadController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Board $board)
+    public function index(User $user)
     {
+        $threads = $user->threads()->paginate(5);
+
+        $threads->load('board');
+
+        return view('users.threads.index', [
+            'user' => $user,
+            'threads' => $threads
+        ]);
+    }
+
+    public function likedThreads(User $user)
+    {
+        if($user->id != auth()->user()->id){
+            abort(403);
+        }
         
+        $likedThreads = $user->likes->map(function ($item) {
+            return $item->thread;
+        });
+        
+        return view('users.threads.liked-threads', [
+            'user' => $user,
+            'threadsLikes' => $likedThreads
+        ]);
     }
 
     /**
@@ -23,9 +46,9 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Board $board)
+    public function create()
     {
-        //return view('threads.create',compact('board'));
+        //
     }
 
     /**
@@ -45,12 +68,9 @@ class BoardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Board $board)
+    public function show($id)
     {
-        $board->load('threads.image','threads.replies.image','threads.user')->get();
-
-        //dd($board); ESTO ME GUSTA MAS SI JODER VAMOSSSSS
-        return view('boards.show',compact('board'));
+        //
     }
 
     /**
@@ -59,7 +79,7 @@ class BoardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Board $board)
+    public function edit($id)
     {
         //
     }
@@ -71,7 +91,7 @@ class BoardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Board $board)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -82,7 +102,7 @@ class BoardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Board $board)
+    public function destroy($id)
     {
         //
     }

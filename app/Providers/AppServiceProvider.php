@@ -31,8 +31,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-                View::share('newestThreads',Thread::with('board')->latest()->take(5)->get());
-                View::share('fattestBoards',Board::withCount('threads')->take(5)->orderBy('threads_count','desc')->get());
+        View::composer('layouts.app', function ($view) {
+            return $view->with('boards', Board::all()->pluck('name','key'));
+        });
+        //View::share('boards', Board::all()->pluck('name','key'));
+
+                //View::share('newestThreads',Thread::with('board')->latest()->take(5)->get());
+                //View::share('fattestBoards',Board::withCount('threads')->take(5)->orderBy('threads_count','desc')->get());
                 
     }
 }
