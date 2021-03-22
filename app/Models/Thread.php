@@ -69,4 +69,9 @@ class Thread extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+
+    public function usersLiked()
+    {
+        return $this->belongsToMany(User::class,'likes');
+    }
 }

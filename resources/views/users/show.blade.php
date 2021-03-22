@@ -18,7 +18,7 @@
                     </h5>
                     <div class="card-body">
                         <div class="card-deck">
-                          @forelse ($user->preThreads as $thread)
+                          @forelse ($user->preThreads->reverse() as $thread)
                           <div class="card">
                             <div class="card-header">
                               <a href="{{ route('boards.threads.show',[$thread->board,$thread]) }}">
@@ -50,13 +50,15 @@
                     </div>
                   </div>
 
-                  <div class="card">
+                  <div class="card mb-2">
                     <h5 class="card-header">
-                            Last <a href="{{ route('users.replies.index', $user) }}">replies</a>
+                            Last <a href="{{ route('users.replies.index', $user) }}" class="text-dark">
+                              replies
+                            </a>
                     </h5>
                     <div class="card-body">
                         <div class="card-deck">
-                          @forelse ($user->preReplies as $reply)
+                          @forelse ($user->preReplies->reverse() as $reply)
 
                           <div class="card">
                             <div class="card-header">
@@ -100,6 +102,62 @@
                           @empty
                           <div class="card-body">
                             <h5 class="card-title">No hay respuestas</h5>
+                          </div>
+                          @endforelse
+                          </div>
+                    </div>
+                  </div>
+
+                  <div class="card mb-2">
+                    <h5 class="card-header">
+                            Liked <a href="{{ route('users.threads.liked', $user) }}">Threads</a>
+                    </h5>
+                    <div class="card-body">
+                        <div class="card-deck">
+                          @forelse ($user->lastThreadsLiked->reverse() as $likedThread)
+
+                          <div class="card">
+                            <div class="card-header">
+                              <a href="{{ route('users.threads.show',[$likedThread->board,$likedThread]) }}">
+                                {{ $likedThread->title }}
+                              </a>
+                              -
+                              <a class="text-secondary" href="{{ route('boards.show', $likedThread->board) }}">
+                                /{{ $likedThread->board->key }}/
+                              </a>
+                            </div>
+                            <div class="card-body">
+                              <p class="card-text">{{ Str::of($likedThread->body)->words(25, '(...)') }}</p>
+                              <p class="card-text">
+                                <small class="text-muted">
+                                  {{ $likedThread->pivot->created_at->isToday() ? $likedThread->pivot->created_at->diffForHumans()  : $likedThread->pivot->created_at->toDateTimeString() . ' ('. $likedThread->pivot->created_at->shortEnglishDayOfWeek .')' }}
+                                </small>
+                              </p>
+                            </div>
+                          </div>
+                          {{-- <div class="card">
+                            @if ($reply->reply_file)
+                            <div class="text-center">
+                              <div>
+                                <a target="_blank" href="{{ asset('storage/threads/'. $board->name .'/'. $reply->thread->id .'/'. $reply->image->name .'.'. $reply->image->type) }}">
+                                  <figcaption class="figure-caption ml-1 text-truncate" style="max-width: 200px;">{{ $reply->image->name }}</figcaption>
+                                </a>
+                                </div>
+                              <div>
+                                <img class="p-1" src="{{ asset('storage/'. $reply->image->thumbnail_path) }}" 
+                                alt="Generic placeholder image" style="max-height: 200px; max-width:200px">
+                              </div>
+                            </div>
+                            @endif                           
+                            <div class="card-body">
+                              <h5 class="card-title">{{ $reply->thread->thread_title }}</h5>
+                              <p class="card-text">{{ Str::of($reply->body)->limit(20, '(...)') }}</p>
+                              <p class="card-text"><small class="text-muted">{{ $reply->updated_at->diffForHumans() }}</small></p>
+                            </div>
+                          </div> --}}
+                          @empty
+                          <div class="card-body">
+                            <h5 class="card-title">No hay liked threads</h5>
                           </div>
                           @endforelse
                           </div>

@@ -27,11 +27,13 @@ Route::resource('boards.threads', \App\Http\Controllers\BoardThreadController::c
 
 Route::group(['middleware' => 'auth'], function() {
 
+    Route::post('/boards/{board}/thread/{thread}/up',[\App\Http\Controllers\BoardThreadController::class, 'up'])->name('boards.threads.up');
+
     Route::get('/users/{user}',[\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
 
     Route::resource('users.replies', \App\Http\Controllers\UserReplyController::class);
 
-    Route::get('/users/{user}/threads/liked', [\App\Http\Controllers\UserThreadController::class, 'likedThreads'])->name('users.threads.likedThreads');
+    Route::get('/users/{user}/threads/liked', [\App\Http\Controllers\UserThreadController::class, 'likedThreads'])->name('users.threads.liked');
 
     Route::resource('users.threads', \App\Http\Controllers\UserThreadController::class);
 

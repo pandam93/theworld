@@ -80,9 +80,20 @@ class User extends Authenticatable
     {
         return $this->replies()->take(3)->orderBy('id', 'desc');
     }
+    
+    public function lastThreadsLiked()
+    {
+        return $this->belongsToMany(Thread::class,'likes')->withPivot('created_at')->take(3)->orderBy('likes.created_at', 'desc');
+    }
 
     public function receivedLikes()
     {
         return $this->hasManyThrough(Like::class, Thread::class);
     }
+
+    public function threadsLiked()
+    {
+        return $this->belongsToMany(Thread::class,'likes')->withPivot('created_at')->orderBy('likes.created_at', 'desc');
+    }
+
 }

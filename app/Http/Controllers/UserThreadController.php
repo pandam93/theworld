@@ -31,13 +31,11 @@ class UserThreadController extends Controller
             abort(403);
         }
         
-        $likedThreads = $user->likes->map(function ($item) {
-            return $item->thread;
-        });
+        $likedThreads = $user->threadsLiked()->paginate(5);
         
-        return view('users.threads.liked-threads', [
+        return view('users.threads.liked', [
             'user' => $user,
-            'threadsLikes' => $likedThreads
+            'threads' => $likedThreads
         ]);
     }
 

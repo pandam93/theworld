@@ -17,7 +17,6 @@ class CreateLikesTable extends Migration
             $table->id();
             $table->foreignId('thread_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

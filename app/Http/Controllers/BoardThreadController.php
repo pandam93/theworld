@@ -126,7 +126,7 @@ class BoardThreadController extends Controller
     public function edit(Board $board, Thread $thread)
     {
 
-        return view('threads.edit', compact('board', 'thread'));
+        return view('boards.threads.edit', compact('board', 'thread'));
     }
 
     /**
@@ -204,5 +204,22 @@ class BoardThreadController extends Controller
 
         // return redirect()->route('boards.threads.show', [$thread->id])
         //     ->with('message', 'Your report has been sent.');
+    }
+
+    public function up(Board $board, Thread $thread)
+    {
+        if($thread->user_id != auth()->user()->id){
+            return back();
+        }
+
+        // TODO: agregar un campo en la bbdd de los threads que registre el 'ultima vez uppeado' o asi
+        // para que solo se pueda uppear una vez al dia.
+
+        $thread->replies()->create([
+            'body' => 'Up!',
+            'user_id' => auth()->user()->id
+        ]);
+
+        return back();
     }
 }

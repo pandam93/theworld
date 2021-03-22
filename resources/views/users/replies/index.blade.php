@@ -48,10 +48,10 @@
                                       @endif
                                     <div class="media-body ml-2 mb-2">
                                       @auth
-                                      <span class="float-right d-flex-column">
+                                      <span class="float-right">
                                         <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">
                                             @if ($user->id != auth()->user()->id) {{--TODO: poner esto en todos los sitios, o dejarlo solo aqui... --}}
-                                            <span class="text-muted">id:</span><a href="{{ route('users.show',$thread->user->username) }}" class="text-dark">{{ $reply->user->username }}</a>
+                                            <span class="text-muted">id:</span><a href="{{ route('users.show',$euser->username) }}" class="text-dark">{{ $reply->user->username }}</a>
                                             @endif
                                           <small class="text-muted">{{ $reply->created_at->toDateTimeString() }} ({{ $reply->created_at->isToday() ? 'Today' : $reply->created_at->shortEnglishDayOfWeek }})</small>
                                           @can('delete', $reply)
@@ -76,47 +76,38 @@
                                       </span>
                                       @endauth
                                       @guest
-                                      <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">{{ 'Anonymous' }}</span>
+                                      <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">{{ 'Anonymous' }}</span> {{-- TODO: Cuidado lo del nombre del thread abajo que no se mostrara, quedaria bien mostrarlo... --}}
                                       @endguest
                                       <span class="d-block mt-1 pb-2">
                                         <span class="border-bottom mb-4 pb-1">
-                                      <h5 class="d-inline-block mb-0">
+                                      <h4 class="d-inline-block mb-0">
                                         id:
-                                        <span class="align-text-top font-weight-normal">
-                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                        <span class="small font-weight-normal align-top">
+                                          <a class="badge {{ ($reply->user->id == auth()->user()->id) ? 'badge-primary' : 'badge-secondary' }} mt-1 pt-1" href="#">
                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
                                           </a>
                                         </span>
                                         {{-- TODO: todo esto, ofc --}}
                                         <i class="gg-more-vertical-alt d-inline-block m-1"></i>
-                                        {{-- $reply->likes->count() --}}
-                                          0
-                                                    {{-- Str::plural('like', $thread->likes->count()) --}}
-                                                     likes
+                                        {{-- $reply->likes->count() --}} 1
+                                                    {{-- Str::plural('like',$thread->likes->count()) --}} plus
                                                         <i class="gg-heart text-danger mb-2 d-inline-block mr-1"></i>
                                                         / 
-                                                        3
-                                                          mentions
+                                                        3 {{-- $reply->mentions->count() --}}
+                                                          mentions {{-- Str::plural('mention', $reply->mentions->count()) --}}
                                                         <i class="gg-trending d-inline-block mr-2"></i>
                                                         <span class="small font-weight-normal align-middle">
-                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                          {{-- <a class="badge badge-secondary mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a> ,
-                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
-                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a> ,
-                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
-                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a> ,
-                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
-                                                              {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-                                                          </a>
+                                                          </a> , 
+                                                          Testeado y funciona
+                                                          --}}
                                                         </span>                                                        
                                                     </h5>
                                                   </span>
                                                   </span>
 
-                                                        <p class="mt-4 mx-2 ">{{ $reply->body }}</p>
+                                                        <p class="h5 mt-2 mx-2 ">{{ $reply->body }}</p>
                                                         <footer class="font-italic position-relative align-bottom">                                            
                                                           <span class="mb-4 pb-1 d-inline align-bottom">
                                                           -
@@ -124,7 +115,7 @@
                                                           {{ $reply->thread->title }} 
                                                         </a><i class="gg-arrow-top-right d-inline-block ml-1 mb-1"></i>
                                                         <span class="small font-weight-normal align-top">
-                                                          <a class="badge badge-secondary mt-1 pt-1" href="#">
+                                                          <a class="badge {{ ($reply->thread->user->id == auth()->user()->id) ? 'badge-primary' : 'badge-secondary' }} mt-1 pt-1" href="#">
                                                               {{ str_pad($reply->thread->id, 7, '0', STR_PAD_LEFT) }}
                                                           </a>
                                                         </span>

@@ -85,8 +85,8 @@
                                         Mis threads
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('users.threads.likedThreads',auth()->user()->username) }}">
-                                        Mis threads guardados
+                                    <a class="dropdown-item" href="{{ route('users.threads.liked',auth()->user()->username) }}">
+                                        Mis liked threads
                                     </a>
 
                                     <div class="dropdown-divider"></div>

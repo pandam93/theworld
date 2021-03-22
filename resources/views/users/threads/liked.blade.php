@@ -9,7 +9,7 @@
                         <div class="p-6">
                             <h1 class="text-2xl font-medium mb-1">{{ $user->name }}</h1>
                             <p>Posted {{ $threads->count() }} {{ Str::plural('thread', $threads->count()) }} and
-                                received {{ $user->receivedLikes->count() }} likes in total</p>
+                                liked {{ $user->threadsLiked->count() }} posts in total</p>
                         </div>
                     </div>
                 </div>
@@ -51,11 +51,11 @@
                                     <div class="media-body ml-2 mb-2">
                                       @auth
                                         <span class="float-right shadow-sm p-1 ml-1 mb-1 bg-white rounded">
-                                            @if ($user->id != auth()->user()->id) {{--TODO: poner esto en todos los sitios, o dejarlo solo aqui... --}}
+                                            @if ($thread->user->id != auth()->user()->id) {{--TODO: poner esto en todos los sitios, o dejarlo solo aqui... --}}
                                             <span class="text-muted">id:</span><a href="{{ route('users.show',$thread->user->username) }}" class="text-dark">{{ $thread->user->username }}</a>
                                             @endif
                                           <small class="text-muted">{{ $thread->created_at->toDateTimeString() }} ({{ $thread->created_at->isToday() ? 'Today' : $thread->created_at->shortEnglishDayOfWeek }})</small>
-                                          @can('delete', $thread)
+                                          @can(['delete','update'], $thread)
                                           <form action="{{ route('boards.threads.destroy', [$thread->board, $thread]) }}"
                                               method="post">
                                               @csrf
@@ -64,14 +64,16 @@
                                                 <i class="gg-trash mt-1 "></i>
                                               </button>
                                           </form>
-                                          <form action="{{ route('boards.threads.edit', [$thread->board, $thread]) }}"
+                                        <form action="{{ route('boards.threads.edit', [$thread->board, $thread]) }}"
                                             method="get">
                                             @csrf
                                             <button type="submit" class="text-secondary float-right bg-light" style="border:none;">
                                               <i class="gg-pen mt-1"></i>
                                             </button>
                                         </form>
-                                      @endcan
+                                          @endcan
+
+                                      
                                       
                                         </span>
                                       @endauth
@@ -98,7 +100,7 @@
                                                         {{ Str::plural('reply', $thread->replies->count()) }}
                                                         
                                                     </h4>
-                                                    <small class="text-muted">last updated: {{ $thread->updated_at->diffForHumans() }}</small>
+                                                    <small class="text-muted">liked: {{ $thread->pivot->created_at->isToday() ? $thread->pivot->created_at->diffForHumans()  : $thread->pivot->created_at->toDateTimeString() . ' ('. $thread->pivot->created_at->shortEnglishDayOfWeek .')' }}</small>
                                                   </span>
                                                   </span>
                                                   <p class="h5 mt-2 ml-2">{{ $thread->body }}</p>
