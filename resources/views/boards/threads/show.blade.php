@@ -157,7 +157,8 @@
                                             </div>
                                         @endauth
                                         @forelse ($thread->replies as $reply)
-                                            <div class="media m-3 border border-dark" style="min-height: 5rem">
+                                            <div id="{{ $reply->id }}" class="media m-3 border border-dark"
+                                                style="min-height: 5rem;">
                                                 @if ($reply->image)
                                                     <div class="d-flex flex-column pl-1 pt-1 pb-1" style="max-width: 250px;">
                                                         <a target="_blank"
@@ -229,7 +230,7 @@
                                                             <hr class="my-0">
                                                         </div>
                                                     @endauth
-                                                    <p id="r{{ $reply->id }}" class="mx-2 mt-2 postText">
+                                                    <p id="{{ $reply->id }}" class="mx-2 mt-2 postText">
                                                         {{ $reply->body }}</p>
                                                     {{-- Cambiar tipografia --}}
                                                     @auth

@@ -102,7 +102,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -144,9 +144,9 @@
         const q = document.querySelectorAll('.quoteTag');
 
         p.forEach(item => {
-            item.innerHTML = item.innerHTML.replace(/\B&gt;&gt;([\d]{7})/gm, (url) => '<a id="link' + item
+            item.innerHTML = item.innerHTML.replace(/\B&gt;&gt;([\d]{7})/gm, (url) => '<a id="r' + item
                 .id +
-                '" href="#r' + url
+                '" href="#' + url
                 .substring(8).replace(
                     /^0+/, '') + '"type="reply" onclick="MyFunction">' + url + '</a>');
 
@@ -171,16 +171,28 @@
 
                     // Set the href property. 
                     a.href = "#" + item.id;
+
+                    a.addEventListener('click', MyFunction);
+
+                    //TODO: bonito intento pero no merece la pena el tiempo y sufrimiento que le voy a dar a esto
+                    //me doy por satisfecho por haber hecho los links de respuestas dinamicos. Ojala alguien me ayude
+                    //con esto...
+                    // var div = document.getElementById(item.id);
+                    // var preview = div.cloneNode(true);
+                    // console.log(preview);
+                    // preview.style.position = 'absolute'
+                    // preview.style.top = '-5px'
+                    // preview.style.left = '0'
+                    // preview.style.width = '100%'
+                    // preview.style.display = 'block';
+                    // preview.zIndex = '1000'
+                    // a.addEventListener('mouseover', (e) => e.target.appendChild(preview))
+
                     var h = document.getElementById('rh' + t);
                     if (h) {
                         h.appendChild(a);
                     }
                 }
-
-
-
-                // Append the anchor element to the body. 
-                //document.getElementById('').appendChild(a);
             }
 
 
@@ -194,26 +206,32 @@
         })
 
         function MyFunction(e) {
-            var preselected = document.querySelector('.bg-secondary');
+            var preselected = document.querySelector('.bg-success');
             if (preselected !== null && preselected !== '') {
-                preselected.classList.remove('bg-secondary')
+                preselected.classList.remove('bg-success')
             }
-            var focushin = document.getElementById('r' + e.target.attributes.href.textContent.substring(2));
+            var focushin = document.getElementById(e.target.attributes.href.textContent.substring(1));
+            //console.log(e.target.attributes.href.textContent.substring(1));
             if (focushin !== null && focushin !== '') {
-                focushin.classList.add('bg-secondary')
+                focushin.classList.add('bg-success')
             }
         }
 
-        function AddMentions() {
+        document.querySelectorAll('a[type="reply"]').forEach(item => {
+            item.addEventListener('click', MyFunction)
+            item.addEventListener('mouseover', (e) => {
+                document.getElementById(e.target.attributes.href.textContent.substring(1)).classList
+                    .add('bg-success');
+            })
+            //Curioso esto TODO:
+            // item.addEventListener('mouseout', (e) => {
+            //     document.getElementById(e.target.attributes.href.textContent.substring(1)).classList
+            //         .remove('bg-success');
+            // })
 
-        }
-
-        document.querySelectorAll('a[type="reply"]').forEach(item => item.addEventListener('click', MyFunction));
+        });
 
     </script>
-    {{-- <a class="mx-1" href="#">
-            >>{{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
-        </a> --}}
 </body>
 
 </html>
