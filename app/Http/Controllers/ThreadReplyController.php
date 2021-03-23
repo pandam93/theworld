@@ -44,7 +44,7 @@ class ThreadReplyController extends Controller
     {
         $reply = $thread->replies()->create($request->validated());
 
-        if (preg_match_all("/\B>>([\d]{9})/", $reply->body, $matches)) {
+        if (preg_match_all("/\B>>([\d]{7})/", $reply->body, $matches)) {
             foreach ($matches[1] as $id) {
                 $replied = Reply::findOrFail((int)$id);
                 \Illuminate\Support\Facades\Notification::send($replied->user, new \App\Notifications\MentionUserNotification($reply));
@@ -105,7 +105,7 @@ class ThreadReplyController extends Controller
                 $file->save(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/thumbnail_' . $fileName . '.' . $fileExtension));
             }
         }
-        return redirect()->route('boards.threads.show', [$thread->board, $thread]);
+        return redirect()->route('boards.threads.show', [$thread->board, $thread], ');
     }
 
     /**
