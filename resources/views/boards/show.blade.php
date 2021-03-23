@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col">
+            <div class="col-10">
                 <div class="row mb-2">
                     <div class="container">
                         <div class="text-center">
@@ -101,7 +101,7 @@
                             <div class="card-header">{{ $board->name }}</div>
                             <div class="card-body">
                                 @forelse ($board->threads as $thread)
-                                    <div class="media bg-light">
+                                    <div class="media bg-light" id="t{{ $thread->id }}">
                                         @if ($thread->image)
                                             <div class="d-flex flex-column pt-1 pl-1 pb-1" style="max-width: 300px;">
                                                 <a target="_blank"
@@ -149,7 +149,8 @@
                                             </div>
                                             <p class="mx-2 mt-2">{{ $thread->body }}</p>
                                             @forelse ($thread->preReplies->reverse() as $reply)
-                                                <div class="media m-3 border border-dark" style="min-height: 5rem">
+                                                <div id="r{{ $reply->id }}" class="media m-3 border border-dark"
+                                                    style="min-height: 5rem">
                                                     @if ($reply->image)
                                                         <div class="d-flex flex-column pl-1 pt-1 pb-1" style="max-width: 250px;">
                                                             <a target="_blank"
@@ -164,7 +165,7 @@
                                                         </div>
                                                     @endif
                                                     <div class="media-body ml-2">
-                                                        <div class="reply ">
+                                                        <div class="reply mb-2">
                                                             @auth
                                                                 <span class="float-right shadow-sm p-1 bg-white rounded">
                                                                     @if ($reply->user->id != auth()->user()->id)
@@ -218,14 +219,3 @@
         </div>
     </div>
 @endsection
-
-{{-- TODO: Hacer obligatorio subir cada hilo con una imagen.
-
-  
-   <a target="_blank" href="{{ asset('storage/threads/'. $board->name .'/'. $thread->id .'/'. $thread->image->name .'.'. $thread->image->type) }}">
-  <figcaption class="figure-caption ml-1">{{ Str::limit($thread->image->name, 10, '...') }}</figcaption>
-</a>
-
-<span class="d-inline-block text-truncate" style="max-width: 150px;">
-  Praeterea iter est quasdam res quas ex communi.
-</span> --}}

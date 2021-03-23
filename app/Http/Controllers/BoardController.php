@@ -15,7 +15,6 @@ class BoardController extends Controller
      */
     public function index(Board $board)
     {
-        
     }
 
     /**
@@ -47,10 +46,10 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        $board->load('threads.image','threads.replies.image','threads.user')->get();
+        $board->load('threads.image', 'threads.replies.image', 'threads.user')->get();
 
         //dd($board); ESTO ME GUSTA MAS SI JODER VAMOSSSSS
-        return view('boards.show',compact('board'));
+        return view('boards.show', compact('board'));
     }
 
     /**

@@ -22,7 +22,6 @@ class ThreadReplyController extends Controller
      */
     public function index(User $user)
     {
-        
     }
 
     /**
@@ -44,6 +43,13 @@ class ThreadReplyController extends Controller
     public function store(StorePostRequest $request, Thread $thread)
     {
         $reply = $thread->replies()->create($request->validated());
+
+        if (preg_match_all("/\B>>([\d]{9})/", $reply->body, $matches)) {
+            foreach ($matches[1] as $id) {
+                $replied = Reply::findOrFail((int)$id);
+                \Illuminate\Support\Facades\Notification::send($replied->user, new \App\Notifications\MentionUserNotification($reply));
+            }
+        }
 
         if ($request->hasFile('reply_file') && $request->file('reply_file')->isValid()) {
 
@@ -67,7 +73,7 @@ class ThreadReplyController extends Controller
                 'type' => $fileExtension,
             ]);
 
-            //TODO: $image->thumbnail_path = 'lo que sea'
+
 
             if (Str::contains($fileExtension, ['jpeg', 'png', 'jpg'])) {
                 if ($fileExtension == 'png') {

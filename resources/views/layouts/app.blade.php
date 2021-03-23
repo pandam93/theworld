@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -25,18 +26,21 @@
         /*
  * Footer
  */
-.blog-footer {
-  padding: 2.5rem 0;
-  color: #999;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-top: .05rem solid #e5e5e5;
-}
-.blog-footer p:last-child {
-  margin-bottom: 0;
-}
+        .blog-footer {
+            padding: 2.5rem 0;
+            color: #999;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-top: .05rem solid #e5e5e5;
+        }
+
+        .blog-footer p:last-child {
+            margin-bottom: 0;
+        }
+
     </style>
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -44,7 +48,9 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -52,9 +58,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @foreach ($boards as $key => $name)
-                        <li class="nav-item">
-                            <a href="{{ route('boards.show', ['board' => $key]) }}" class="nav-link">{{ $name }}</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('boards.show', ['board' => $key]) }}"
+                                    class="nav-link">{{ $name }}</a>
+                            </li>
                         @endforeach
                     </ul>
 
@@ -72,32 +79,36 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-                                
+
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('users.show',auth()->user()->username) }}">
+                                    <a class="dropdown-item" href="{{ route('users.show', auth()->user()->username) }}">
                                         Perfil
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('users.threads.index',auth()->user()->username) }}">
+                                    <a class="dropdown-item"
+                                        href="{{ route('users.threads.index', auth()->user()->username) }}">
                                         Mis threads
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('users.threads.liked',auth()->user()->username) }}">
+                                    <a class="dropdown-item"
+                                        href="{{ route('users.threads.liked', auth()->user()->username) }}">
                                         Mis liked threads
                                     </a>
 
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                  document.getElementById('logout-form').submit();">
-                                     {{ __('Logout') }}
+                                        onclick="event.preventDefault();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
                                     </a>
 
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
@@ -113,10 +124,96 @@
         </main>
     </div>
     <footer class="blog-footer">
-        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
+                href="https://twitter.com/mdo">@mdo</a>.</p>
         <p>
-          <a href="#">Back to top</a>
+            <a href="#">Back to top</a>
         </p>
-      </footer>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script>
+        const p = document.querySelectorAll('.postText');
+        const q = document.querySelectorAll('.quoteTag');
+
+        p.forEach(item => {
+            item.innerHTML = item.innerHTML.replace(/\B&gt;&gt;([\d]{7})/gm, (url) => '<a id="link' + item
+                .id +
+                '" href="#r' + url
+                .substring(8).replace(
+                    /^0+/, '') + '"type="reply" onclick="MyFunction">' + url + '</a>');
+
+
+            // Create anchor element. 
+            var text = item.innerHTML.match(/\B&gt;&gt;([\d]{7})/gm)
+            if (text !== null) {
+                // Create anchor element. 
+                var a = document.createElement('a');
+                var t = text[0].substring(8).replace(
+                    /^0+/, '');
+
+                if (t !== '') {
+                    // Create the text node for anchor element. 
+                    var link = document.createTextNode(' >>' + item.id.substr(1).padStart(7, "0"));
+
+                    // Append the text node to anchor element. 
+                    a.appendChild(link);
+
+                    // Set the title. 
+                    //a.title = "This is Link";
+
+                    // Set the href property. 
+                    a.href = "#" + item.id;
+                    var h = document.getElementById('rh' + t);
+                    if (h) {
+                        h.appendChild(a);
+                    }
+                }
+
+
+
+                // Append the anchor element to the body. 
+                //document.getElementById('').appendChild(a);
+            }
+
+
+        });
+
+        q.forEach(item => {
+            item.addEventListener('click', (e) => {
+                var formReply = document.getElementById('FormControlTextarea');
+                formReply.innerHTML += '>>' + e.target.innerText + '\n';
+            })
+        })
+
+        function MyFunction(e) {
+            var preselected = document.querySelector('.bg-secondary');
+            if (preselected !== null && preselected !== '') {
+                preselected.classList.remove('bg-secondary')
+            }
+            var focushin = document.getElementById('r' + e.target.attributes.href.textContent.substring(2));
+            if (focushin !== null && focushin !== '') {
+                focushin.classList.add('bg-secondary')
+            }
+        }
+
+        function AddMentions() {
+
+        }
+
+        document.querySelectorAll('a[type="reply"]').forEach(item => item.addEventListener('click', MyFunction));
+
+    </script>
+    {{-- <a class="mx-1" href="#">
+            >>{{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
+        </a> --}}
 </body>
+
 </html>

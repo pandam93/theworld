@@ -16,9 +16,9 @@ class MentionUserNotification extends Notification
      *
      * @return void
      */
-    public function __construct($thread)
+    public function __construct($reply)
     {
-        $this->thread = $thread;
+        $this->reply = $reply;
     }
 
     /**
@@ -52,11 +52,8 @@ class MentionUserNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
-        return [
-            'username' => $this->thread->user->id,
-            'thread' => $this->thread->id,
-        ];
+        return [$this->reply->toJSON()];
     }
 }
