@@ -102,7 +102,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -160,8 +160,8 @@
                     /^0+/, '');
 
                 if (t !== '') {
-                    // Create the text node for anchor element. 
-                    var link = document.createTextNode(' >>' + item.id.substr(1).padStart(7, "0"));
+                    // Create the text node for anchor element.
+                    var link = document.createTextNode(' >>' + item.id.padStart(7, "0"));
 
                     // Append the text node to anchor element. 
                     a.appendChild(link);
@@ -217,12 +217,24 @@
             }
         }
 
+        function zoomImage(id) {
+
+            var x = document.getElementById(id);
+            if (x.style.maxHeight === "250px" && x.style.maxWidth === "300px") {
+                x.style.maxHeight = "100%";
+                x.style.maxWidth = "100%";
+            } else {
+                x.style.maxHeight = "250px";
+                x.style.maxWidth = "300px";
+            }
+        }
+
         document.querySelectorAll('a[type="reply"]').forEach(item => {
             item.addEventListener('click', MyFunction)
-            item.addEventListener('mouseover', (e) => {
-                document.getElementById(e.target.attributes.href.textContent.substring(1)).classList
-                    .add('bg-success');
-            })
+            // item.addEventListener('mouseover', (e) => {
+            //     document.getElementById(e.target.attributes.href.textContent.substring(1)).classList
+            //         .add('bg-success');
+            // })
             //Curioso esto TODO:
             // item.addEventListener('mouseout', (e) => {
             //     document.getElementById(e.target.attributes.href.textContent.substring(1)).classList
@@ -230,6 +242,78 @@
             // })
 
         });
+
+
+
+        function playPause(id) {
+            let myVideo = document.getElementById(id);
+            if (myVideo.paused)
+                myVideo.play();
+            else
+                myVideo.pause();
+        }
+
+        function makeBig(id) {
+            let myVideo = document.getElementById(id);
+            myVideo.width = 560;
+        }
+
+        function makeSmall(id) {
+            let myVideo = document.getElementById(id);
+            myVideo.width = 320;
+        }
+
+        function makeNormal(id) {
+            let myVideo = document.getElementById(id);
+            myVideo.width = 420;
+        }
+
+        function makeVerySmall(id) {
+            let myVideo = document.getElementById(id);
+            myVideo.width = 150;
+        }
+
+        (function($) {
+
+            var getGif = function() {
+                var gif = [];
+                $('.img-gif').each(function() {
+                    var data = $(this).data('alt');
+                    gif.push(data);
+                });
+                return gif;
+            }
+            var gif = getGif();
+
+            var image = [];
+
+            $.each(gif, function(index) {
+                image[index] = new Image();
+                image[index].src = gif[index];
+            });
+
+            $('figure').on('click', function() {
+
+                var $this = $(this),
+                    $index = $this.index(),
+
+                    $img = $this.children('img'),
+                    $imgSrc = $img.attr('src'),
+                    $imgAlt = $img.attr('data-alt'),
+                    $imgExt = $imgAlt.split('.');
+
+                console.log($imgExt);
+
+                if ($imgExt[2] === 'gif') {
+                    $img.attr('src', $img.data('alt')).attr('data-alt', $imgSrc);
+                } else {
+                    $img.attr('src', $imgAlt).attr('data-alt', $img.data('alt'));
+
+                }
+
+            });
+
+        })(jQuery);
 
     </script>
 </body>

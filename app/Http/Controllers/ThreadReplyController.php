@@ -75,38 +75,40 @@ class ThreadReplyController extends Controller
 
 
 
-            if (Str::contains($fileExtension, ['jpeg', 'png', 'jpg'])) {
-                if ($fileExtension == 'png') {
-                    //TODO: quiza mejor y mas rapido pillar la imagen de request->file
-                    $file = Image::make(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension));
-                    $width = 600; // your max width
-                    $height = 300; // your max height
-                    $file->height() > $file->width() ? $width = null : $height = null;
-                    $file->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
+            if (Str::contains($fileExtension, ['jpeg', 'png', 'jpg', 'gif'])) {
+                $file = Image::make(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension))->encode('webp', 80);
 
-                    $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
-                    $image->save();
-                } else {
-                    $file = Image::make(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension))->encode('webp', 80);
-                    $width = 600; // your max width
-                    $height = 300; // your max height
-                    $file->height() > $file->width() ? $width = null : $height = null;
-                    $file->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
+                //se puede pero es medio mierdoso, a ver si en la internet lo explican mejor
+                // $file->text('GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF GIF ', 50, 50, function ($font) {
+                //     $font->file(1);
+                //     $font->size(75);
+                //     $font->color('#fdf6e3');
+                //     $font->align('center');
+                //     $font->valign('top');
+                //     $font->angle(45);
+                // });
 
-                    $fileExtension = 'webp';
+                $width = 600; // your max width
+                $height = 300; // your max height
+                $file->height() > $file->width() ? $width = null : $height = null;
+                $file->resize($width, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
-                    $image->save();
-                }
+                $fileExtension = 'webp';
+
+                $image->thumbnail_path = $fileThumbnailPath . '/thumbnail_' . $fileName . '.' . $fileExtension;
+                $image->save();
+
                 $file->save(storage_path('app/public/threads/' . $thread->board->name . '/' . $thread->id . '/thumbnail_' . $fileName . '.' . $fileExtension));
+            } else {
+                $image->thumbnail_path = 'threads/' . $thread->board->name . '/' . $thread->id . '/' . $fileName . '.' . $fileExtension;
+                $image->save();
             }
         }
-        return redirect()->route('boards.threads.show', [$thread->board, $thread], ');
+        return redirect()->route('boards.threads.show', [$thread->board, $thread]);
     }
+
 
     /**
      * Display the specified resource.

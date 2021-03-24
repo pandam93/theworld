@@ -42,23 +42,23 @@
                             </div>
                             <div class="card-body">
                                 <div class="media border bg-light mb-2 pt-2">
-
-                                    @if ($thread->image)
-                                        <div class="d-flex flex-column pt-1 pl-1 pb-1" style="max-width: 300px;">
-                                            <a target="_blank"
-                                                href="{{ asset('storage/threads/' . $board->name . '/' . $thread->id . '/' . $thread->image->name . '.' . $thread->image->type) }}">
-                                                <figcaption class="figure-caption text-truncate">
-                                                    {{ $thread->image->name }}</figcaption>
-                                            </a>
-                                            <img class="img-responsive"
-                                                src="{{ asset('storage/' . $thread->image->thumbnail_path) }}"
-                                                alt="image404" style="max-height: 250px;">
-                                        </div>
-                                    @endif
                                     <div class="media-body ml-2">
+                                        @if ($thread->image)
+                                            <div class="d-flex flex-column pt-1 pl-1 pb-1 mr-4 float-left" style="">
+                                                <a target="_blank"
+                                                    href="{{ asset('storage/threads/' . $board->name . '/' . $thread->id . '/' . $thread->image->name . '.' . $thread->image->type) }}">
+                                                    <figcaption class="figure-caption text-truncate">
+                                                        {{ $thread->image->name }}</figcaption>
+                                                </a>
+                                                <img id='img_{{ $thread->id }}' class="img-responsive"
+                                                    src="{{ asset('storage/' . $thread->image->thumbnail_path) }}"
+                                                    alt="image404" onclick="zoomImage('img_{{ $thread->id }}')"
+                                                    style="max-height: 250px;max-width: 300px;">
+                                            </div>
+                                        @endif
                                         <div class="op">
                                             @auth
-                                                <span class="float-right shadow-sm p-1 bg-white rounded">
+                                                <span class="float-right shadow-sm p-1 bg-white rounded ">
                                                     @if ($thread->user->id != auth()->user()->id)
                                                         <span class="text-muted">id:</span><a
                                                             href="{{ route('users.show', $thread->user->username) }}"
@@ -160,16 +160,49 @@
                                             <div id="{{ $reply->id }}" class="media m-3 border border-dark"
                                                 style="min-height: 5rem;">
                                                 @if ($reply->image)
-                                                    <div class="d-flex flex-column pl-1 pt-1 pb-1" style="max-width: 250px;">
+                                                    <div class="d-flex flex-column pl-1 pt-1 pb-1">
                                                         <a target="_blank"
                                                             href="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}">
                                                             <figcaption class="figure-caption text-truncate">
                                                                 {{ $reply->image->name }}
                                                             </figcaption>
                                                         </a>
-                                                        <img class="img-responsive"
-                                                            src="{{ asset('storage/' . $reply->image->thumbnail_path) }}"
-                                                            alt="Generic placeholder image" style="max-height: 225px;">
+                                                        @if ($reply->image->type == 'webm' || $reply->image->type == 'mp4')
+                                                            <div style="text-align:center">
+                                                                <button
+                                                                    onclick="playPause('video_{{ $reply->id }}')">Play/Pause</button>
+                                                                <button
+                                                                    onclick="makeBig('video_{{ $reply->id }}')">Big</button>
+                                                                <button
+                                                                    onclick="makeSmall('video_{{ $reply->id }}')">Small</button>
+                                                                <button
+                                                                    onclick="makeNormal('video_{{ $reply->id }}')">Normal</button>
+                                                                <button
+                                                                    onclick="makeVerySmall('video_{{ $reply->id }}')">small</button>
+                                                                <br>
+                                                                <video id="video_{{ $reply->id }}" width="420" class="mt-1">
+                                                                    {{-- <source src="mov_bbb.mp4" type="video/mp4"> --}}
+                                                                    <source
+                                                                        src="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
+                                                                        type="video/webm">
+                                                                    Your browser does not support HTML video.
+                                                                </video>
+                                                            </div>
+                                                        @elseif($reply->image->type == 'gif')
+                                                            <figure>
+                                                                <img id='img_{{ $reply->id }}'
+                                                                    src="{{ asset('storage/' . $reply->image->thumbnail_path) }}"
+                                                                    class="img-gif" alt="Static Image"
+                                                                    data-alt="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
+                                                                    style="max-height: 250px; max-width:300px">
+                                                            </figure>
+                                                        @else
+                                                            <img id='img_{{ $reply->id }}' class="img-responsive"
+                                                                src="{{ asset('storage/' . $reply->image->thumbnail_path) }}"
+                                                                alt="Generic placeholder image"
+                                                                onclick="zoomImage('img_{{ $reply->id }}')"
+                                                                style="max-height: 250px; max-width:300px">
+                                                        @endif
                                                     </div>
                                                 @endif
                                                 <div class="media-body ml-2">

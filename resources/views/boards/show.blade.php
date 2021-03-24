@@ -103,15 +103,16 @@
                                 @forelse ($board->threads as $thread)
                                     <div class="media bg-light" id="t{{ $thread->id }}">
                                         @if ($thread->image)
-                                            <div class="d-flex flex-column pt-1 pl-1 pb-1" style="max-width: 300px;">
+                                            <div class="d-flex flex-column pt-1 pl-1 pb-1">
                                                 <a target="_blank"
                                                     href="{{ asset('storage/threads/' . $board->name . '/' . $thread->id . '/' . $thread->image->name . '.' . $thread->image->type) }}">
                                                     <figcaption class="figure-caption text-truncate">
                                                         {{ $thread->image->name }}</figcaption>
                                                 </a>
-                                                <img class="img-responsive"
+                                                <img id='img_{{ $thread->id }}' class="img-responsive"
                                                     src="{{ asset('storage/' . $thread->image->thumbnail_path) }}"
-                                                    alt="image404" style="max-height: 250px;">
+                                                    alt="image404" onclick="zoomImage('img_{{ $thread->id }}')"
+                                                    style="max-height: 250px;max-width:300px">
                                             </div>
                                         @endif
                                         <div class="media-body ml-2">
@@ -139,7 +140,7 @@
                                                 </span>
                                                 @auth
                                                     <a class="badge {{ $thread->user->id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
-                                                        href="#">
+                                                        href="{{ route('boards.threads.show', [$thread->board, $thread]) }}/#postReplyForm">
                                                         {{ str_pad($thread->id, 7, '0', STR_PAD_LEFT) }}
                                                     </a>
                                                     <i class="gg-more-vertical-alt d-inline-block m-1"></i>
@@ -152,16 +153,18 @@
                                                 <div id="r{{ $reply->id }}" class="media m-3 border border-dark"
                                                     style="min-height: 5rem">
                                                     @if ($reply->image)
-                                                        <div class="d-flex flex-column pl-1 pt-1 pb-1" style="max-width: 250px;">
-                                                            <a target="_blank"
+                                                        <div class="d-flex flex-column pl-1 pt-1 pb-1">
+                                                            <a target=" _blank"
                                                                 href="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}">
                                                                 <figcaption class="figure-caption text-truncate">
                                                                     {{ $reply->image->name }}
                                                                 </figcaption>
                                                             </a>
-                                                            <img class="img-responsive"
+                                                            <img id='img_{{ $reply->id }}' class="img-responsive"
                                                                 src="{{ asset('storage/' . $reply->image->thumbnail_path) }}"
-                                                                alt="Generic placeholder image" style="max-height: 225px;">
+                                                                alt="Generic placeholder image"
+                                                                onclick="zoomImage('img_{{ $reply->id }}')"
+                                                                style="max-height: 250px; max-width:300px">
                                                         </div>
                                                     @endif
                                                     <div class="media-body ml-2">
@@ -189,7 +192,7 @@
                                                             @auth
                                                                 <span class="h2"></span>
                                                                 <a class="badge {{ $reply->user->id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
-                                                                    href="#">
+                                                                    href="{{ route('boards.threads.show', [$reply->thread->board, $reply->thread]) }}/#{{ $reply->id }}">
                                                                     {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
                                                                 </a>
                                                                 <i class="gg-more-vertical-alt d-inline-block m-1"></i>

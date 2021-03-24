@@ -208,7 +208,7 @@ class BoardThreadController extends Controller
 
     public function up(Board $board, Thread $thread)
     {
-        if($thread->user_id != auth()->user()->id){
+        if ($thread->user_id != auth()->user()->id) {
             return back();
         }
 
