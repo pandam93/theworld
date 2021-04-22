@@ -180,7 +180,8 @@
                                                                 <button
                                                                     onclick="makeVerySmall('video_{{ $reply->id }}')">small</button>
                                                                 <br>
-                                                                <video id="video_{{ $reply->id }}" width="420" class="mt-1">
+                                                                <video id="video_{{ $reply->id }}" width="420"
+                                                                    class="mt-1">
                                                                     {{-- <source src="mov_bbb.mp4" type="video/mp4"> --}}
                                                                     <source
                                                                         src="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
@@ -313,10 +314,17 @@
                                             <label for="FormControlFile">Image reply</label>
                                             <input type="file" class="form-control-file" id="FormControlFile" name="reply_file">
                                         </div>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="Check" name="reply_check">
-                                            <label class="form-check-label" for="Check">Check me
-                                                out</label>
+                                        <div class="form-group">
+                                            <label for="FormControlOption">Options</label>
+                                            <select class="js-example-basic-multiple custom-select" name="options[]"
+                                                multiple="multiple">
+                                                <option value="prv">+prv</option>
+                                                <option value="">+HD</option>
+                                                <option value="temaserio">+temaserio</option>
+                                                <option value="18">+18</option>
+                                                <option value="16">+16</option>
+                                                <option value="video">+video</option>
+                                            </select>
                                         </div>
                                         <button id='postSubmit' type="submit" class="btn btn-primary"
                                             onclick="this.disabled=true;this.form.submit();">Post</button>
