@@ -314,18 +314,6 @@
                                             <label for="FormControlFile">Image reply</label>
                                             <input type="file" class="form-control-file" id="FormControlFile" name="reply_file">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="FormControlOption">Options</label>
-                                            <select class="js-example-basic-multiple custom-select" name="options[]"
-                                                multiple="multiple">
-                                                <option value="prv">+prv</option>
-                                                <option value="">+HD</option>
-                                                <option value="temaserio">+temaserio</option>
-                                                <option value="18">+18</option>
-                                                <option value="16">+16</option>
-                                                <option value="video">+video</option>
-                                            </select>
-                                        </div>
                                         <button id='postSubmit' type="submit" class="btn btn-primary"
                                             onclick="this.disabled=true;this.form.submit();">Post</button>
                                     </form>
