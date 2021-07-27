@@ -112,7 +112,7 @@ class BoardThreadController extends Controller
      */
     public function show(Board $board, Thread $thread)
     {
-        $thread->load(['replies.user', 'image']);
+        $thread->load(['replies.user', 'image', 'user', 'replies.image', 'likes']);
 
         return view('boards.threads.show', compact('board', 'thread'));
     }

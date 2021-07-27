@@ -46,9 +46,8 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        $board->load('threads.image', 'threads.replies.image', 'threads.user')->get();
+        $board->load(['threads.replies.user', 'threads.user']);
 
-        //dd($board); ESTO ME GUSTA MAS SI JODER VAMOSSSSS
         return view('boards.show', compact('board'));
     }
 

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Admin panel</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <style>
+            body {
+  background: #f6f6f6;
+  height: 100vh;
+}
+nav {
+  background-color: white;
+}
+.search-form {
+  width: 50%;
+}
+            #sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  box-shadow: -1px 0 0 rgba(0, 0, 0, .1);
+  max-width: 10vw;
+}
+
+#sidebar .nav-item {
+  text-align: center;
+  padding: 25px 0;
+}
+
+#sidebar .nav-item a {
+  color: rgba(0,0,0,.2);
+}
+
+#sidebar .nav-item a.active { 
+  color: #0d6efd;
+}
+
+.vertical-nav {
+  margin-top: 20vh;
+}
+
+.logo {
+  max-height: 30px;
+  margin: 15px 25px;
+}
+
+a.navbar-brand {
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+            section {
+  margin: 10px;
+}
+.main {
+  padding: 2rem;
+  padding-top: calc(4rem + 74px)
+}
+.main .first-row, .main .second-row {
+  padding-bottom: 3rem;
+}
+.main .row .card {
+  height: 100%;
+}
+.card {
+  border: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, .1);
+  max-height: 100%;
+}
+.card-header {
+  background: white;
+  font-weight: 700;
+  padding: 20px;
+}
+.card-body {
+  padding: 0.5rem;
+  font-size: 12px;
+}
+#recently-posted .card img {
+  padding-top: 0.5rem;
+}
+.stats .card-text {
+  padding-top: 5px;
+  padding-left: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+}
+.img-container {
+  height: 120px;
+  width: 120px;
+  text-align: center;
+  margin: auto;
+  display: block;
+  margin-top: 20px;
+}
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+}
+.badge {
+  font-size: 18px;
+}
+        </style>
+    </head>
+    <body>
+        <!-- Top Nav -->
+        <nav
+            class="py-3 px-4 navbar navbar-expand-lg auto-hiding-navbar fixed-top"
+        >
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div
+                class="collapse navbar-collapse d-flex"
+                id="navbarSupportedContent"
+            >
+                <form class="search-form d-flex ml-auto mt-1 mb-0">
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                    />
+                    <button
+                        class="btn btn-outline-primary my-2 my-sm-0"
+                        type="submit"
+                    >
+                        Search
+                    </button>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            Hello Admin
+                        </a>
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="navbarDropdown"
+                        >
+                            <a class="dropdown-item" href="#">User Settings</a>
+                            <a class="dropdown-item" href="#"
+                                >Create New Account</a
+                            >
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End Top Nav   -->
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-1">
+              <nav id="sidebar" class="sidebar">
+                <a class="navbar-brand" href="#">
+                  <img src="./assets/logo.png" alt="logo" class="logo" />
+                </a>
+                <ul class="nav flex-column vertical-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"/>
+                      <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-post" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
+                        <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7z"/>
+                        <path fill-rule="evenodd" d="M4 3.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                        <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="4" height="5" x="1" y="10" rx="1"/>
+                      <rect width="4" height="9" x="6" y="6" rx="1"/>
+                      <rect width="4" height="14" x="11" y="1" rx="1"/>
+                      <path fill-rule="evenodd" d="M0 14.5a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-left-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v11.586l2-2A2 2 0 0 1 4.414 11H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <!-- End Sidebar  -->
+            <div class="main col-11">
+                <div class="row first-row">
+                  <div class="col-4">
+                    <section id="recently-posted">
+                      <div class="card">
+                        <div class="card-header">
+                          Recently Published Posts 
+                        </div>
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item">
+                            <div class="row g-0">
+                              <div class="col-md-3">
+                                <img src="./assets/post1.jpeg"  alt="Post One Photo" class="img-fluid rounded-lg">
+                              </div>
+                              <div class="col-md-9">
+                                <div class="card-body">
+                                  <h6 class="card-title">Lorem ipsum dolor sit amet...</h6>
+                                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                  <p class="card-text"><small class="text-muted">Added 3 days ago</small></p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          <li class="list-group-item">
+                            <div class="row g-0">
+                              <div class="col-md-3">
+                                <img src="./assets/post1.jpeg"  alt="Post One Photo" class="img-fluid rounded-lg">
+                              </div>
+                              <div class="col-md-9">
+                                <div class="card-body">
+                                  <h6 class="card-title">Lorem ipsum dolor sit amet...</h6>
+                                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                  <p class="card-text"><small class="text-muted">Added 3 days ago</small></p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          <li class="list-group-item">
+                            <div class="row g-0">
+                              <div class="col-md-3">
+                                <img src="./assets/post1.jpeg"  alt="Post One Photo" class="img-fluid rounded-lg">
+                              </div>
+                              <div class="col-md-9">
+                                <div class="card-body">
+                                  <h6 class="card-title">Lorem ipsum dolor sit amet...</h6>
+                                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                  <p class="card-text"><small class="text-muted">Added 3 days ago</small></p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                  </div>
+                  <div class="col-8">
+                    <section id="statistics">
+                      <div class="card">
+                        <div class="card-header">
+                          Statisctics
+                        </div>
+                          <div class="stats py-3 px-4">
+                            <div class="py-4">
+                              <div class="progress">
+                                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="card-text">Visited the blog</p>
+                            </div>
+                            <div class="py-4">
+                              <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="card-text">Read posts</p>
+                            </div>
+                            <div class="py-4">
+                              <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="card-text">Subscribed to the newsletter</p>
+                            </div>
+                            <div class="py-4">
+                              <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="card-text">Subscribed to the newsletter</p>
+                            </div>
+                          </div>
+                      </div>
+                    </section>
+                  </div>
+                  <div class="row second-row">
+                    <div class="col-4">
+                      <section id="recently-commented">
+                        <div class="card">
+                          <div class="card-header">
+                            Latest comments
+                          </div>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                              <div class="row g-0">
+                                <div class="col">
+                                  <div class="card-body">
+                                    <h6 class="card-title">Username</h6>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. <small class="text-muted">Added 3 days ago</small></p>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="row g-0">
+                                <div class="col">
+                                  <div class="card-body">
+                                    <h6 class="card-title">Username</h6>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. <small class="text-muted">Added 3 days ago</small></p>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="row g-0">
+                                <div class="col">
+                                  <div class="card-body">
+                                    <h6 class="card-title">Username</h6>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. <small class="text-muted">Added 3 days ago</small></p>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </section>
+                    </div>
+                    <div class="col-5">
+                        <section id="notes-form">
+                          <div class="card">
+                            <div class="card-header">
+                              Write a note
+                            </div>
+                            <div class="card-body px-4">
+                              <form>
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Your Note</label>
+                                  <textarea rows=7 class="form-control"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                              </form>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                      <div class="col">
+                        <section id="active-user">
+                          <div class="card mt-2">
+                            <div class="card-header">
+                              Most Active User
+                            </div>
+                            <div class="card-body text-center">
+                              <div class="img-container mb-4">
+                                <img src="./assets/user.jpeg" class="card-img-top" alt="User">
+                              </div>
+                              <h6 class="card-title mb-4">John Doe</h6>
+                              <p class="card-text">Commented <span class="badge bg-light text-dark">198</span> times</p>
+                              <p class="card-text">Posted <span class="badge bg-light text-dark">12</span> articles</p>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                  </div>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

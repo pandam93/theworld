@@ -88,8 +88,8 @@
                 "Laravel" ( ͡° ͜ʖ ͡°)
             </div>
             <div class="links">
-                @foreach ($boards as $key => $name)
-                    <a href="{{ route('boards.show', ['board' => $key]) }}">{{ $name }}</a>
+                @foreach ($boards as $board)
+                    <a href="{{ route('boards.show', $board) }}">{{ $board->name }}</a>
                 @endforeach
             </div>
         </div>

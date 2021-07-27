@@ -59,9 +59,9 @@
                                         <div class="op">
                                             @auth
                                                 <span class="float-right shadow-sm p-1 bg-white rounded ">
-                                                    @if ($thread->user->id != auth()->user()->id)
+                                                    @if ($thread->user_id != auth()->user()->id)
                                                         <span class="text-muted">id:</span><a
-                                                            href="{{ route('users.show', $thread->user->username) }}"
+                                                            href="{{ route('users.show', $thread->user_id) }}"
                                                             class="text-dark">{{ $thread->user->username }}</a>
                                                         /
                                                     @endif
@@ -71,7 +71,7 @@
                                                     </small>
                                                     @can('delete', $thread)
                                                         <form id="deleteThreadForm"
-                                                            action="{{ route('boards.threads.destroy', [$thread->board, $thread]) }}"
+                                                            action="{{ route('boards.threads.destroy', [$thread->board_id, $thread]) }}"
                                                             method="post">
                                                             @csrf
                                                             @method('DELETE')
@@ -81,7 +81,7 @@
                                                             </button>
                                                         </form>
                                                         <form id="editThreadForm"
-                                                            action="{{ route('boards.threads.edit', [$thread->board, $thread]) }}"
+                                                            action="{{ route('boards.threads.edit', [$thread->board_id, $thread]) }}"
                                                             method="get">
                                                             @csrf
                                                             <button type="submit" class="text-secondary float-right bg-light"
@@ -90,7 +90,7 @@
                                                             </button>
                                                         </form>
                                                         <form id="UpThreadForm"
-                                                            action="{{ route('boards.threads.up', [$thread->board, $thread]) }}"
+                                                            action="{{ route('boards.threads.up', [$thread->board_id, $thread]) }}"
                                                             method="post">
                                                             @csrf
                                                             <button type="submit" class="text-secondary float-right bg-light"
@@ -107,10 +107,10 @@
                                             @endguest
                                             <span class="h2">
                                                 <a
-                                                    href="{{ route('boards.threads.show', [$thread->board, $thread]) }}">{{ $thread->title }}</a>
+                                                    href="{{ route('boards.threads.show', [$thread->board_id, $thread]) }}">{{ $thread->title }}</a>
                                             </span>
                                             @auth
-                                                <a class="badge {{ $thread->user->id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
+                                                <a class="badge {{ $thread->user_id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
                                                     href="#">
                                                     {{ str_pad($thread->id, 7, '0', STR_PAD_LEFT) }}
                                                 </a>
@@ -120,7 +120,8 @@
 
                                             @endauth
                                         </div>
-                                        <p class="mx-2 mt-2">{{ $thread->body }}</p>
+                                        <p class="mx-2 mt-2">{!! nl2br(e($thread->body)) !!}
+                                        </p>
                                         @auth
                                             <div id="optionThreadMenu" class="m-2">
                                                 <i class="gg-info d-inline-block mr-2 align-middle"></i>
@@ -162,7 +163,7 @@
                                                 @if ($reply->image)
                                                     <div class="d-flex flex-column pl-1 pt-1 pb-1">
                                                         <a target="_blank"
-                                                            href="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}">
+                                                            href="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread_id . '/' . $reply->image->name . '.' . $reply->image->type) }}">
                                                             <figcaption class="figure-caption text-truncate">
                                                                 {{ $reply->image->name }}
                                                             </figcaption>
@@ -183,7 +184,7 @@
                                                                 <video id="video_{{ $reply->id }}" width="420" class="mt-1">
                                                                     {{-- <source src="mov_bbb.mp4" type="video/mp4"> --}}
                                                                     <source
-                                                                        src="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
+                                                                        src="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread_id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
                                                                         type="video/webm">
                                                                     Your browser does not support HTML video.
                                                                 </video>
@@ -193,7 +194,7 @@
                                                                 <img id='img_{{ $reply->id }}'
                                                                     src="{{ asset('storage/' . $reply->image->thumbnail_path) }}"
                                                                     class="img-gif" alt="Static Image"
-                                                                    data-alt="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
+                                                                    data-alt="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread_id . '/' . $reply->image->name . '.' . $reply->image->type) }}"
                                                                     style="max-height: 250px; max-width:300px">
                                                             </figure>
                                                         @else
@@ -221,7 +222,7 @@
                                                                     ({{ $reply->created_at->isToday() ? 'Today' : $reply->created_at->shortEnglishDayOfWeek }})</small>
                                                                 @can('delete', $reply)
                                                                     <form
-                                                                        action="{{ route('threads.replies.destroy', [$reply->thread, $reply]) }}"
+                                                                        action="{{ route('threads.replies.destroy', [$reply->thread_id, $reply]) }}"
                                                                         method="post">
                                                                         @csrf
                                                                         @method('DELETE')

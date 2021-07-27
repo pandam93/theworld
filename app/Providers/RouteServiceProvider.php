@@ -47,6 +47,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::bind('product', function ($value) {
+            return \App\Models\User::where('id', $value)->orWhere('username', $value)->first();
+        });
     }
 
     /**

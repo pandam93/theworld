@@ -57,10 +57,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @foreach ($boards as $key => $name)
+                        @foreach ($boards as $board)
                             <li class="nav-item">
-                                <a href="{{ route('boards.show', ['board' => $key]) }}"
-                                    class="nav-link">{{ $name }}</a>
+                                <a href="{{ route('boards.show', $board->key) }}"
+                                    class="nav-link">{{ $board->name }}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -102,7 +102,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -123,7 +123,7 @@
             @yield('content')
         </main>
     </div>
-    <footer class="blog-footer">
+    <footer class="blog-footer mt-auto">
         <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
                 href="https://twitter.com/mdo">@mdo</a>.</p>
         <p>

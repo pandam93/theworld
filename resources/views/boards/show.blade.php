@@ -119,7 +119,7 @@
                                             <div class="op">
                                                 @auth
                                                     <span class="float-right shadow-sm p-1 bg-white rounded">
-                                                        @if ($thread->user->id != auth()->user()->id)
+                                                        @if ($thread->user_id != auth()->user()->id)
 
                                                             <span class="text-muted">id:</span><a
                                                                 href="{{ route('users.show', $thread->user->username) }}"
@@ -136,11 +136,11 @@
                                                 @endguest
                                                 <span class="h2">
                                                     <a
-                                                        href="{{ route('boards.threads.show', [$thread->board, $thread]) }}">{{ $thread->title }}</a>
+                                                        href="{{ route('boards.threads.show', [$board->key, $thread]) }}">{{ $thread->title }}</a>
                                                 </span>
                                                 @auth
-                                                    <a class="badge {{ $thread->user->id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
-                                                        href="{{ route('boards.threads.show', [$thread->board, $thread]) }}/#postReplyForm">
+                                                    <a class="badge {{ $thread->user_id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
+                                                        href="{{ route('boards.threads.show', [$board->id, $thread]) }}/#postReplyForm">
                                                         {{ str_pad($thread->id, 7, '0', STR_PAD_LEFT) }}
                                                     </a>
                                                     <i class="gg-more-vertical-alt d-inline-block m-1"></i>
@@ -149,13 +149,13 @@
                                                 @endauth
                                             </div>
                                             <p class="mx-2 mt-2">{{ $thread->body }}</p>
-                                            @forelse ($thread->preReplies->reverse() as $reply)
+                                            @forelse ($thread->replies->reverse() as $reply)
                                                 <div id="r{{ $reply->id }}" class="media m-3 border border-dark"
                                                     style="min-height: 5rem">
                                                     @if ($reply->image)
                                                         <div class="d-flex flex-column pl-1 pt-1 pb-1">
                                                             <a target=" _blank"
-                                                                href="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread->id . '/' . $reply->image->name . '.' . $reply->image->type) }}">
+                                                                href="{{ asset('storage/threads/' . $board->name . '/' . $reply->thread_id . '/' . $reply->image->name . '.' . $reply->image->type) }}">
                                                                 <figcaption class="figure-caption text-truncate">
                                                                     {{ $reply->image->name }}
                                                                 </figcaption>
@@ -171,7 +171,7 @@
                                                         <div class="reply mb-2">
                                                             @auth
                                                                 <span class="float-right shadow-sm p-1 bg-white rounded">
-                                                                    @if ($reply->user->id != auth()->user()->id)
+                                                                    @if ($reply->user_id != auth()->user()->id)
                                                                         {{-- TODO: poner esto en todos los sitios, o dejarlo solo aqui... --}}
                                                                         <span class="text-muted">id:</span><a
                                                                             href="{{ route('users.show', $reply->user->username) }}"
@@ -191,8 +191,8 @@
                                                             @endguest
                                                             @auth
                                                                 <span class="h2"></span>
-                                                                <a class="badge {{ $reply->user->id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
-                                                                    href="{{ route('boards.threads.show', [$reply->thread->board, $reply->thread]) }}/#{{ $reply->id }}">
+                                                                <a class="badge {{ $reply->user_id == auth()->user()->id ? 'badge-primary' : 'badge-secondary' }} pt-1 align-text-top"
+                                                                    href="{{ route('boards.threads.show', [$reply->thread->board_id, $reply->thread]) }}/#{{ $reply->id }}">
                                                                     {{ str_pad($reply->id, 7, '0', STR_PAD_LEFT) }}
                                                                 </a>
                                                                 <i class="gg-more-vertical-alt d-inline-block m-1"></i>

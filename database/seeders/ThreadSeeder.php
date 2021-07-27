@@ -22,10 +22,10 @@ class ThreadSeeder extends Seeder
         // DB::table('threads')->truncate();
         // DB::statement('SET FOREIGN_KEY_CHECKS = 1;'); // Reactivamos la revisión de claves foráneas
 
-        Thread::factory()->count(10)->has(Reply::factory()->count(3), 'replies')->create();
+        //Thread::factory()->count(10)->has(Reply::factory()->count(3), 'replies')->create();
 
-        
-        
+
+
         $text = "Hey Faggots,
 
         My name is John, and I hate every single one of you. All of you are fat, retarded, no-lifes who spend every second of their day looking at stupid ass pictures. You are everything bad in the world. Honestly, have any of you ever gotten any pussy? I mean, I guess it's fun making fun of people because of your own insecurities, but you all take to a whole new level. This is even worse than jerking off to pictures on facebook.
@@ -35,8 +35,8 @@ class ThreadSeeder extends Seeder
         Pic Related: It's me and my bitch";
 
         Thread::create([
-            'board_id' => \App\Models\Board::where('name','random')->first()->id,
-            'user_id' => \App\Models\User::where('username','cfmillanm')->first()->id,
+            'board_id' => \App\Models\Board::where('name', 'random')->first()->id,
+            'user_id' => \App\Models\User::where('username', 'cfmillanm')->first()->id,
             'title' => 'My name is John',
             'slug' => 'my-name-is-john',
             'body' => $text,
