@@ -28,7 +28,7 @@ class StoreThreadRequest extends FormRequest
         return [
             'title' => 'required|string|min:3|max:30',
             'body' => 'required|string|min:3|max:200',
-            
+
         ];
     }
 

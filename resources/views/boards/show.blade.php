@@ -86,6 +86,21 @@
                                                             placeholder="url">
                                                     </div>
                                                 </div>
+                                                <div class="form-group row">
+                                                    <label for="FormControlOption"
+                                                        class="col-sm-2 col-form-label">Options</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="select2-multiple form-control" name="options[]"
+                                                            multiple="multiple">
+                                                            <option value="prv">+prv</option>
+                                                            <option value="hd">+HD</option>
+                                                            <option value="temaserio">+temaserio</option>
+                                                            <option value="18">+18</option>
+                                                            <option value="16">+16</option>
+                                                            <option value="video">+video</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary">Post</button>
                                             </form>
                                         </div>
@@ -126,7 +141,8 @@
                                                                 class="text-dark">{{ $thread->user->username }}</a>
                                                             /
                                                         @endif
-                                                        <small class="text-muted">{{ $thread->created_at->toDateTimeString() }}
+                                                        <small
+                                                            class="text-muted">{{ $thread->created_at->toDateTimeString() }}
                                                             ({{ $thread->created_at->isToday() ? 'Today' : $thread->created_at->shortEnglishDayOfWeek }})</small>
                                                     </span>
                                                 @endauth

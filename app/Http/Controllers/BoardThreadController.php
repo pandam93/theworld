@@ -45,6 +45,7 @@ class BoardThreadController extends Controller
      */
     public function store(StoreThreadRequest $request, Board $board)
     {
+        //dd($request->all());
         $thread = $board->threads()->create($request->validated());
 
         if ($request->hasFile('thread_file') && $request->file('thread_file')->isValid()) {
