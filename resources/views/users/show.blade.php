@@ -19,7 +19,7 @@
         <div class="row justify-content-center">
             <div class="col-10">
                 <div class="row">
-                    <div class="card mb-4">
+                    <div class="card mb-4 w-100">
                         <h5 class="card-header">
                             Last <a href="{{ route('users.threads.index', $user) }}">threads</a>
                         </h5>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="card mb-2">
+                    <div class="card mb-2 w-100">
                         <h5 class="card-header">
                             Last <a href="{{ route('users.replies.index', $user) }}" class="text-dark">
                                 replies
@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="card mb-2">
+                    <div class="card mb-2 w-100">
                         <h5 class="card-header">
                             Liked <a href="{{ route('users.threads.liked', $user) }}">Threads</a>
                         </h5>
@@ -111,11 +111,13 @@
 
                                     <div class="card">
                                         <div class="card-header">
-                                            <a href="{{ route('users.threads.show', [$likedThread->board, $likedThread]) }}">
+                                            <a
+                                                href="{{ route('users.threads.show', [$likedThread->board, $likedThread]) }}">
                                                 {{ $likedThread->title }}
                                             </a>
                                             -
-                                            <a class="text-secondary" href="{{ route('boards.show', $likedThread->board) }}">
+                                            <a class="text-secondary"
+                                                href="{{ route('boards.show', $likedThread->board) }}">
                                                 /{{ $likedThread->board->key }}/
                                             </a>
                                         </div>

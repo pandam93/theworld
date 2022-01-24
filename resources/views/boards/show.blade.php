@@ -91,7 +91,7 @@
                                                         class="col-sm-2 col-form-label">Options</label>
                                                     <div class="col-sm-10">
                                                         <select class="select2-multiple form-control" name="options[]"
-                                                            multiple="multiple">
+                                                            multiple="multiple" style="width:100%;">
                                                             <option value="prv">+prv</option>
                                                             <option value="hd">+HD</option>
                                                             <option value="temaserio">+temaserio</option>
